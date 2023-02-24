@@ -1,6 +1,6 @@
 <p align="center"><a href="https://www.binaamal.sch.id/" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwW1TLFAzlq8aiOxyGdAf4MGkkXcfxMtmiHw&usqp=CAU" width="250" alt="SMP Logo"></a></p>
 
-## Tutorial Laravel
+# Tutorial Laravel
 
 **[Laravel Documentation](https://laravel.com/docs)**
 
@@ -59,7 +59,7 @@ setelah file seeder dan factory sudah di edit.
 
 kalau sudah jalan, database yang di phpmyadmin sudah berubah menyesuaikan di laravel.
 
-## Tutorial Github
+# Tutorial Github
 
 **[Command List Github](https://github.com/joshnh/Git-Commands)**
 
