@@ -2,7 +2,7 @@
 
 ## Tutorial Laravel
 
-[Laravel Documentation](https://laravel.com/docs)
+**[Laravel Documentation](https://laravel.com/docs)**
 
 ### Basic Command Laravel
 
@@ -39,6 +39,8 @@ tutorial buat edit databasenya. [Documentasinya](https://laravel.com/docs/4.2/mi
     DB_USERNAME=root
     DB_PASSWORD=
 
+setelah env di edit
+
     buka terminal di vscode
     php artisan migrate:make create_table_(nama buat databasenya contoh "create_table_siswa")
     edit filenya di folder Migrations
@@ -59,7 +61,7 @@ kalau sudah jalan, database yang di phpmyadmin sudah berubah menyesuaikan di lar
 
 ## Tutorial Github
 
-[Command List Github](https://github.com/joshnh/Git-Commands)
+**[Command List Github](https://github.com/joshnh/Git-Commands)**
 
 Ini tutorial biar make githubnya gampang
 
