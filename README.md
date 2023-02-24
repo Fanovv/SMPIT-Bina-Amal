@@ -1,66 +1,88 @@
-<p align="center"><a href="https://www.binaamal.sch.id/" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwW1TLFAzlq8aiOxyGdAf4MGkkXcfxMtmiHw&usqp=CAU" width="400" alt="SMP Logo"></a></p>
+<p align="center"><a href="https://www.binaamal.sch.id/" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwW1TLFAzlq8aiOxyGdAf4MGkkXcfxMtmiHw&usqp=CAU" width="250" alt="SMP Logo"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Tutorial Laravel
 
-## About Laravel
+[Laravel Documentation](https://laravel.com/docs)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Basic Command Laravel
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Command yang bakal banyak di pakai
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **php artisan serve**
+- **php artisan migrate**
+- **php artisan make:**
+- **php artisan migrate:refresh --seed**
 
-## Learning Laravel
+Kurang lebih yang di pakai nanti ini..
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Tutorial Clone dan Install
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Ini Tutorial buat nanti clone dari github ke komputer/laptop kalian masing masing
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    open cmd or git bash
+    masuk ke direktori yang mau di taro clonenya
+    git clone https://github.com/Fanovv/SMPIT-Bina-Amal.git
+    buka folder di vscode
+    buka terminal di vscode
+    composer install
+    ubah .env.example jadi .env
+    php artisan serve
 
-## Laravel Sponsors
+**Note : kalau sudah di buka ip yang di kasih tau di terminal vscode yaitu 127.0.0.1:8000 trus munculnya error key langsung di pencet generate key yang muncul**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Tutorial Database Migrate
 
-### Premium Partners
+tutorial buat edit databasenya. [Documentasinya](https://laravel.com/docs/4.2/migrations)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+    edit .env
+    DB_DATABASE=db_binaamal
+    DB_USERNAME=root
+    DB_PASSWORD=
 
-## Contributing
+    buka terminal di vscode
+    php artisan migrate:make create_table_(nama buat databasenya contoh "create_table_siswa")
+    edit filenya di folder Migrations
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+setelah file databasenya di edit. langsung buat data dummynya
 
-## Code of Conduct
+    buka terminal di vscode
+    php artisan make:factory (nama buat seedernya contoh "siswa")
+    edit filenya di folder Factory
+    edit file seeder di folder Seeder
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+setelah file seeder dan factory sudah di edit.
 
-## Security Vulnerabilities
+    buka terminal di vscode
+    php artisan migrate:refresh --seed
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+kalau sudah jalan, database yang di phpmyadmin sudah berubah menyesuaikan di laravel.
 
-## License
+## Tutorial Github
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+[Command List Github](https://github.com/joshnh/Git-Commands)
+
+Ini tutorial biar make githubnya gampang
+
+    git pull
+    git checkout -b "(nama branch nanti spasinya di ganti pake -)"
+    git add .
+    git commit -m "(message buat commit contoh 'update fitur')"
+    git push
+    pull request lewat website
+
+**Setelah Pull request kabarin Affan dulu buat di cek jalan biar ga ada conflict, tunggu 1 - 2 hari kalau belum ada yang merge monggo di merge sendiri tapi JANGAN LUPA NOTIF KE YANG BERSANGKUTAN**
+
+cara rebase
+
+    pindah ke branch main
+    git pull
+    pindah ke branchmu sendiri
+    git rebase main
+
+kalo ada yang conflict
+
+    di resolve dulu terus git add. trus git commit -m "msg"
+    git rebase --continue
+    ulang sampe sukses
+
+**Rebase biar branchmu sama branch yang baru ada update itu isinya sama biar ga bentrok, kalo bentrok repot nanti**
