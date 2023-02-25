@@ -11,7 +11,7 @@ Command yang bakal banyak di pakai
 - **php artisan serve**
 - **php artisan migrate**
 - **php artisan make:**
-- **php artisan migrate:refresh --seed**
+- **php artisan migrate:fresh --seed**
 
 Kurang lebih yang di pakai nanti ini..
 
@@ -55,7 +55,7 @@ setelah file databasenya di edit. langsung buat data dummynya
 setelah file seeder dan factory sudah di edit.
 
     buka terminal di vscode
-    php artisan migrate:refresh --seed
+    php artisan migrate:fresh --seed
 
 kalau sudah jalan, database yang di phpmyadmin sudah berubah menyesuaikan di laravel.
 
