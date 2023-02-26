@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum("level", ["admin", "bk", "tu", "wali", "guru"]);
-            $table->rememberToken();
         });
     }
 
