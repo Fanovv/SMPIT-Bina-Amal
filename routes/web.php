@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,3 +42,5 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/Guru', [App\Http\Controllers\Users\GuruController::class, 'index'])->name('guru.dashboard');
     });
 });
+
+Route::resource("users", UserController::class);

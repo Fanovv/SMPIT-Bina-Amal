@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Tata-Tertib-Bina-Amal') }}</title>
+    <title>@yield('title') &mdash; Login</title>
 
      <!-- General CSS Files -->
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -20,22 +20,26 @@
     <link rel="stylesheet" href="../assets/css/components.css">
 
 </head>
-
 <body>
     <div id="app">
-        <div class="main-wrapper">
-                
-                @include('components.header')
+        <section class="section">
+            <div class="container mt-5">
+                <div
+                        class="{{ Request::is('auth-register') ? 'col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2' : 'col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4' }}">
 
-                @include('components.sidebar')
+                
+                @include('components.auth-header')
 
                 @yield('main') 
 
-                @include('components.footer')
+                @include('components.auth-footer')
 
-        </div>
+                </div>
+            </div>
+        </section>
+        
+        
     </div>
-
 
      <!-- General JS Scripts -->
      <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
