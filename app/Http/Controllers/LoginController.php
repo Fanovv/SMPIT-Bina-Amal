@@ -31,23 +31,16 @@ class LoginController extends Controller
         if (auth()->attempt($credentials)) {
             $request->session()->regenerate();
             $user = auth()->user();
-            switch ($user->level) {
-                case 'admin':
-                    return redirect()->intended(route('admin.dashboard'));
-                case 'bk':
-                    return redirect()->intended(route('bk.dashboard'));
-                case 'tu':
-                    return redirect()->intended(route('tu.dashboard'));
-                case 'wali':
-                    return redirect()->intended(route('wali.dashboard'));
-                case 'guru':
-                    return redirect()->intended(route('guru.dashboard'));
-                default:
-                    return redirect()->intended(route('loginform'));
+            if ($user->level == 'admin') {
+                return redirect()->intended(route('admin.dashboard'));
+            } elseif ($user->level == 'wali') {
+                return redirect()->intended(route('wali.dashboard'));
+            } else {
+                return redirect()->back()->with('fail', 'login failed');
             }
         }
 
-        return redirect()->back()->with('fail', 'login failed');
+        return redirect()->back()->with('fail', 'Email dan Password salah');
     }
 
     public function logout(Request $request)

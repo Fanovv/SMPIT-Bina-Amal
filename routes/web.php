@@ -24,19 +24,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/admin', [App\Http\Controllers\Users\AdminController::class, 'index'])->name('admin.dashboard');
     });
 
-    Route::group(['middleware' => ['auth', 'user-access:bk']], function () {
-        Route::get('/BK', [App\Http\Controllers\Users\BKController::class, 'index'])->name('bk.dashboard');
-    });
-
-    Route::group(['middleware' => ['auth', 'user-access:tu']], function () {
-        Route::get('/TU', [App\Http\Controllers\Users\TUController::class, 'index'])->name('tu.dashboard');
-    });
-
     Route::group(['middleware' => ['auth', 'user-access:wali']], function () {
         Route::get('/Wali', [App\Http\Controllers\Users\WaliController::class, 'index'])->name('wali.dashboard');
-    });
-
-    Route::group(['middleware' => ['auth', 'user-access:guru']], function () {
-        Route::get('/Guru', [App\Http\Controllers\Users\GuruController::class, 'index'])->name('guru.dashboard');
     });
 });
