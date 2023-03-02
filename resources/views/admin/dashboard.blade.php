@@ -1,6 +1,9 @@
 @extends('Layouts.app')
 
 @section('content')
+<script>
+document.title = "Dashboard"
+</script>
 <div class="main-content">
     <section class="section">
         <div class="section-header">
@@ -13,8 +16,26 @@
         </div>
 
         <div class="section-body">
-            <h2 class="section-title">This is Example Page</h2>
-            <p class="section-lead">This page is just an example for you to create your own page.</p>
+            @if(session()->has('success'))
+            <div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('success') }}
+                </div>
+            </div>
+            @endif
+            @if(session()->has('fail'))
+            <div class="alert alert-danger alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('fail') }}
+                </div>
+            </div>
+            @endif
             <div class="card">
                 <div class="card-header">
                     <h4>Example Card</h4>

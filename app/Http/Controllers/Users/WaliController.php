@@ -9,6 +9,6 @@ class WaliController extends Controller
 {
     public function index()
     {
-        return view('Wali.dashboard');
+        return view('Wali.dashboard', ["title" => "Dashboard",]);
     }
 }

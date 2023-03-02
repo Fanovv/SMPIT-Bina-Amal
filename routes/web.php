@@ -22,6 +22,13 @@ Route::group(['middleware' => 'revalidate'], function () {
 
     Route::group(['middleware' => ['auth', 'user-access:admin']], function () {
         Route::get('/admin', [App\Http\Controllers\Users\AdminController::class, 'index'])->name('admin.dashboard');
+        Route::get('/admin/manage', [App\Http\Controllers\Users\AdminController::class, 'manage'])->name('admin.manageUser');
+        Route::get('/admin/addUser', [App\Http\Controllers\Users\AdminController::class, 'addUser'])->name('admin.addUser');
+        Route::get('/admin/manage/{id}/edit', [App\Http\Controllers\Users\AdminController::class, 'editUser'])->name('admin.editUser');
+        Route::post('/admin/manageUser/{id}', [App\Http\Controllers\Users\AdminController::class, 'updateUser'])->name('admin.updateUser');
+        Route::post('/admin/manage/delete/{id}', [App\Http\Controllers\Users\AdminController::class, 'destroyUser'])->name('admin.destroyUser');
+
+        Route::resource('/admin', App\Http\Controllers\Users\AdminController::class)->except(['index', 'update', 'edit', 'destroy']);
     });
 
     Route::group(['middleware' => ['auth', 'user-access:wali']], function () {
