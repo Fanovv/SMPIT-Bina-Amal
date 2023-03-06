@@ -1,7 +1,7 @@
 @extends('Layouts.app')
 
 @push('css')
-<link rel="stylesheet" href="{{ asset('library/datatables/media/css/jquery.dataTables.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.12.1/r-2.3.0/datatables.min.css" />
 @endpush
 
@@ -43,6 +43,9 @@
             <div class="card">
                 <div class="card-header">
                     <h4>Management User</h4>
+                    <div class="card-header-action">
+                        <a href="{{ route('admin.addUser') }}" class="btn btn btn-success">Tambah Akun</a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -70,14 +73,14 @@
                                         Wali Kelas/Wali Asrama
                                     </td>
                                     @endif
-                                    <td><a href="/admin/manage/{{ $data->id }}/edit" class="btn btn-icon icon-left btn-warning"><i class="far fa-edit"></i>Edit</a>
+                                    <td><a href="/admin/manage/user/{{ $data->id }}/edit" class="btn btn-icon icon-left btn-warning"><i class="far fa-edit"></i>Edit</a>
                                         @if ($data->level == 'wali')
                                         <!-- <a href="/admin/manage/delete/{{ $data -> id }}"
                                             class="btn btn-icon icon-left btn-danger" onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i
                                                 class="far fa-edit"></i>Edit</a> -->
                                         <form action="/admin/manage/delete/{{ $data -> id }}" method="POST" class="d-inline">
                                             @csrf
-                                            <button class="btn btn-danger" onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i class="far fa-times"></i>Hapus</a></button>
+                                            <button class="btn btn-icon icon-left btn-danger" onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i class="fas fa-times"></i>Hapus</a></button>
                                         </form>
                                         @endif
                                 </tr>
@@ -98,8 +101,8 @@
 
 @push('scripts')
 <!-- JS Libraies -->
-<script src="{{ asset('library/datatables/media/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('library/jquery-ui-dist/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('js/page/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.12.1/r-2.3.0/datatables.min.js"></script>
 <!-- Page Specific JS File -->
 <script src="{{ asset('js/page/modules-datatables.js') }}"></script>

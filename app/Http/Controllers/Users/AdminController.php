@@ -16,7 +16,7 @@ class AdminController extends Controller
 
     public function addUser()
     {
-        return view('admin.addUser', ['title' => 'Tambah User']);
+        return view('admin.addUser', ['title' => 'Management User']);
     }
 
     public function store(Request $request)
@@ -32,7 +32,7 @@ class AdminController extends Controller
 
         $check = User::create($validatedData);
 
-        return redirect('/admin')->with($check ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
+        return redirect('/admin/manage')->with($check ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
     }
 
     public function manage()
@@ -43,7 +43,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function editUser($id)
+    public function edit($id)
     {
         $user = User::where('id', $id)->get();
         return view('admin.editUser', [
@@ -53,7 +53,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function updateUser(Request $request, $id)
+    public function update(Request $request, $id)
     {
         if (isset($request->password)) {
             $validatedData = $request->validate([

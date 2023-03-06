@@ -10,13 +10,14 @@
             <h1>Tambah User</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
+                <div class="breadcrumb-item active"><a href="{{ route('admin.manageUser') }}">Management User</a></div>
                 <div class="breadcrumb-item"><a>Tambah User</a></div>
             </div>
         </div>
 
         <div class="section-body">
             <div class="card">
-                <form method="POST" action="{{ route('admin.store') }}" class="needs-validation" novalidate="">
+                <form method="POST" action="{{ route('user.store') }}" class="needs-validation" novalidate="">
                     @csrf
                     <div class="card-header">
                         <h4>Tambah User</h4>
@@ -58,8 +59,12 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Password</label>
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" name="password" required>
+                            <div class="input-group col-sm-9">
+                                <input type="password" id="pwd" class="form-control" name="password" placeholder="Password" required>
+                                <div class="input-group-append">
+                                    <div class="input-group-text"><span class="fa fa-eye" style="cursor:pointer"></span>
+                                    </div>
+                                </div>
                                 @error('password')
                                 <div class="invalid-feedback">
                                     What's your name?
@@ -78,3 +83,22 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $(".fa").bind("click", function() {
+
+            if ($('#pwd').attr('type') == 'password') {
+                $('#pwd').attr('type', 'text');
+                $('.fa').removeClass('fa-eye');
+                $('.fa').addClass('fa-eye-slash');
+            } else if ($('#pwd').attr('type') == 'text') {
+                $('#pwd').attr('type', 'password');
+                $('.fa').removeClass('fa-eye-slash');
+                $('.fa').addClass('fa-eye');
+            }
+        })
+    });
+</script>
+@endpush

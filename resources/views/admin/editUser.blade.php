@@ -2,7 +2,7 @@
 
 @section('content')
 <script>
-document.title = "Edit User"
+    document.title = "Edit User"
 </script>
 <div class="main-content">
     <section class="section">
@@ -17,8 +17,9 @@ document.title = "Edit User"
 
         <div class="section-body">
             <div class="card">
-                <form method="POST" action="/admin/manageUser/{{ $id }}" enctype="multipart/form-data">
+                <form method="POST" action="/admin/manage/user/{{ $id }}" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="card-header">
                         <h4>Edit User</h4>
                     </div>
@@ -39,8 +40,7 @@ document.title = "Edit User"
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Your Name</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Nama User"
-                                    value="{{ $p -> name }}">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Nama User" value="{{ $p -> name }}">
                                 @error('name')
                                 <div class="invalid-feedback">
                                     Terdapat Kesalahan Pada Kolom Nama
@@ -51,8 +51,7 @@ document.title = "Edit User"
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Email User" value="{{ $p -> email }}">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email User" value="{{ $p -> email }}">
                                 @error('email')
                                 <div class="invalid-feedback">
                                     Terdapat Kesalahan Pada Kolom Email
@@ -62,16 +61,17 @@ document.title = "Edit User"
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Password</label>
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" name="password">
+                            <div class="input-group col-sm-9">
+                                <input type="password" id="pwd" class="form-control" name="password" placeholder="Password (Boleh Tidak Di isi)">
+                                <div class="input-group-append">
+                                    <div class="input-group-text"><span class="fa fa-eye" style="cursor:pointer"></span>
+                                    </div>
+                                </div>
                                 @error('password')
                                 <div class="invalid-feedback">
                                     Terdapat Kesalahan Pada Kolom Password
                                 </div>
                                 @enderror
-                                <small id="passwordHelpBlock" class="form-text text-muted">
-                                    Tidak Harus Diisi
-                                </small>
                             </div>
                         </div>
                     </div>
@@ -86,3 +86,22 @@ document.title = "Edit User"
 </div>
 
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $(".fa").bind("click", function() {
+
+            if ($('#pwd').attr('type') == 'password') {
+                $('#pwd').attr('type', 'text');
+                $('.fa').removeClass('fa-eye');
+                $('.fa').addClass('fa-eye-slash');
+            } else if ($('#pwd').attr('type') == 'text') {
+                $('#pwd').attr('type', 'password');
+                $('.fa').removeClass('fa-eye-slash');
+                $('.fa').addClass('fa-eye');
+            }
+        })
+    });
+</script>
+@endpush
