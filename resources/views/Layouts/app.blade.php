@@ -263,18 +263,14 @@
                                 <!-- <li><a class="nav-link" href="index.html">Ecommerce Dashboard</a></li> -->
                             </ul>
                         </li>
-                        <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank
-                                    Page</span></a></li>
-                        <!-- <li class="menu-header">Starter</li>
-                        <li class="nav-item dropdown active {{ $title==='Dashboard'? 'active' : '' }}">
-                            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Layout</span></a>
+                        <li class="nav-item dropdown {{ $title==='Management Kelas'? 'active' : '' }}">
+                            <a href="#" class="nav-link has-dropdown"><i class="fas fa-columns"></i>
+                                <span>Kelas</span></a>
                             <ul class="dropdown-menu">
-                                <li class="active"><a class="nav-link" href="layout-default.html">Default Layout</a></li>
-                                <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a></li>
-                                <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
+                                <li class="{{ $title==='Management Kelas'? 'active' : '' }}"><a class="nav-link" href="{{ route('classes.manageClass') }}">management Kelas</a></li>
                             </ul>
                         </li>
-                        <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li>
+                        <!-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Bootstrap</span></a>
                             <ul class="dropdown-menu">

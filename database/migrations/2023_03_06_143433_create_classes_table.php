@@ -16,9 +16,13 @@ return new class extends Migration
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->string('class_name');
-            $table->string('class_id');
-            $table->unsignedBigInteger('wali_id');
-            $table->foreign('wali_id')->references('id')->on('users');
+            $table->unsignedBigInteger('wali_1')->nullable();
+            $table->unsignedBigInteger('wali_2')->nullable();
+        });
+
+        Schema::table('classes', function (Blueprint $table) {
+            $table->foreign('wali_1')->references('id')->on('users');
+            $table->foreign('wali_2')->references('id')->on('users');
         });
     }
 

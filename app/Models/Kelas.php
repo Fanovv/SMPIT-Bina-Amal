@@ -15,6 +15,6 @@ class Kelas extends Model
     protected $primaryKey = "id";
     public $timestamps = false;
     protected $fillable = [
-        'class_name', 'class_id', 'wali_id',
+        'class_name', 'class_id', 'wali_1', 'wali_2'
     ];
 }

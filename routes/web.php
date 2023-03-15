@@ -27,8 +27,15 @@ Route::group(['middleware' => 'revalidate'], function () {
         // Route::get('/admin/manage/{id}/edit', [App\Http\Controllers\Users\AdminController::class, 'editUser'])->name('admin.editUser');
         // Route::post('/admin/manageUser/{id}', [App\Http\Controllers\Users\AdminController::class, 'updateUser'])->name('admin.updateUser');
         Route::post('/manage/delete/{id}', [App\Http\Controllers\Users\AdminController::class, 'destroyUser'])->name('admin.destroyUser');
-
         Route::resource('/manage/user', App\Http\Controllers\Users\AdminController::class)->except(['index', 'destroy']);
+
+
+        //Kelas
+        Route::get('/class', [App\Http\Controllers\Users\KelasController::class, 'manage'])->name('classes.manageClass');
+        Route::get('/class/addClass', [App\Http\Controllers\Users\KelasController::class, 'showAddClass'])->name('classes.showAddClasses');
+        Route::post('/class/addClass', [App\Http\Controllers\Users\KelasController::class, 'AddClasses'])->name('classes.AddClasses');
+        Route::post('/class/delete/{id}', [App\Http\Controllers\Users\KelasController::class, 'destroyKelas'])->name('classes.destroyKelas');
+        Route::resource('/class', App\Http\Controllers\Users\KelasController::class)->except(['index', 'destroy', 'create']);
     });
 
     Route::group(['middleware' => ['auth', 'user-access:wali']], function () {

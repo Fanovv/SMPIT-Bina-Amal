@@ -17,8 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('nis', 17)->unique();
-            $table->string('class_id');
-            $table->string('wali');
+            $table->integer('class_id');
         });
     }
 
