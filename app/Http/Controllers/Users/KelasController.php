@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Imports\KelasImport;
 use App\Models\Kelas;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel;
+use Maatwebsite\Excel\Facades\Excel as FacadesExcel;
 
 class KelasController extends Controller
 {
 
     public function showAddClass()
     {
-        return view('classes.addClasses', ['title' => 'Kelas']);
+        return view('classes.addClasses', ['title' => 'Management Kelas']);
     }
 
     private function getUserID($name)
@@ -93,5 +96,25 @@ class KelasController extends Controller
     {
         $check = Kelas::where('id', $id->id)->delete();
         return redirect('/admin/class')->with($check ? ['success' => 'Data berhasil dihapus'] : ['fail' => 'Data gagal dihapus']);
+    }
+
+    public function showImport()
+    {
+        return view('classes.importClass', ['title' => 'Management Kelas']);
+    }
+
+    public function import_excel(Request $request)
+    {
+        $this->validate($request, [
+            'file_kelas' => 'required|mimes:csv,xls,xlsx',
+        ]);
+
+        $file = $request->file('file_kelas');
+        $nama_file = rand() . $file->getClientOriginalName();
+        $file->move('file_kelas', $nama_file);
+        $check = FacadesExcel::import(new KelasImport, public_path('/file_kelas/' . $nama_file));
+        unlink(public_path('/file_kelas/' . $nama_file));
+
+        return redirect('/admin/class')->with($check ? ['success' => 'Data berhasil diimport'] : ['fail' => 'Data gagal diimport']);
     }
 }

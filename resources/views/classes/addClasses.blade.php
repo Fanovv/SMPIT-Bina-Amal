@@ -10,7 +10,8 @@
             <h1>Tambah Kelas</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item active"><a href="{{ route('admin.manageUser') }}">Management User</a></div>
+                <div class="breadcrumb-item active"><a href="{{ route('classes.manageClass') }}">Management Kelas</a>
+                </div>
                 <div class="breadcrumb-item"><a>Tambah Kelas</a></div>
             </div>
         </div>
@@ -21,6 +22,11 @@
                     @csrf
                     <div class="card-header">
                         <h4>Tambah Kelas</h4>
+                        <div class="card-header-action">
+                            <a href="{{ route('classes.showImport') }}" class="btn btn-success">
+                                Import Data
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
                         @if($errors->any())

@@ -33,8 +33,10 @@ Route::group(['middleware' => 'revalidate'], function () {
         //Kelas
         Route::get('/class', [App\Http\Controllers\Users\KelasController::class, 'manage'])->name('classes.manageClass');
         Route::get('/class/addClass', [App\Http\Controllers\Users\KelasController::class, 'showAddClass'])->name('classes.showAddClasses');
+        Route::get('/class/addClass/import', [App\Http\Controllers\Users\KelasController::class, 'showImport'])->name('classes.showImport');
         Route::post('/class/addClass', [App\Http\Controllers\Users\KelasController::class, 'AddClasses'])->name('classes.AddClasses');
         Route::post('/class/delete/{id}', [App\Http\Controllers\Users\KelasController::class, 'destroyKelas'])->name('classes.destroyKelas');
+        Route::post('/class/addClass/import', [App\Http\Controllers\Users\KelasController::class, 'import_excel'])->name('classes.importExcel');
         Route::resource('/class', App\Http\Controllers\Users\KelasController::class)->except(['index', 'destroy', 'create']);
     });
 
