@@ -38,6 +38,11 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::post('/class/delete/{id}', [App\Http\Controllers\Users\KelasController::class, 'destroyKelas'])->name('classes.destroyKelas');
         Route::post('/class/addClass/import', [App\Http\Controllers\Users\KelasController::class, 'import_excel'])->name('classes.importExcel');
         Route::resource('/class', App\Http\Controllers\Users\KelasController::class)->except(['index', 'destroy', 'create']);
+
+        //Murid
+        Route::get('/student/addStudent', [App\Http\Controllers\Users\StudentController::class, 'showAddStudent'])->name('student.showAddStudent');
+        Route::post('/student/checkKelas', [App\Http\Controllers\Users\StudentController::class, 'checkKelas'])->name('student.checkKelas');
+        Route::resource('/student', App\Http\Controllers\Users\StudentController::class)->except(['index', 'destroy']);
     });
 
     Route::group(['middleware' => ['auth', 'user-access:wali']], function () {

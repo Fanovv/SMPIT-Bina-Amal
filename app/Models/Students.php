@@ -15,6 +15,6 @@ class Students extends Model
     protected $primaryKey = "id";
     public $timestamps = false;
     protected $fillable = [
-        'nama', 'nis', 'class_id',
+        'nama', 'nis', 'kelas',
     ];
 }

@@ -17,7 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('nis', 17)->unique();
-            $table->integer('class_id');
+            $table->unsignedBigInteger('kelas')->nullable();
+        });
+
+        Schema::table('students', function (Blueprint $table) {
+            $table->foreign('kelas')->references('id')->on('classes');
         });
     }
 
