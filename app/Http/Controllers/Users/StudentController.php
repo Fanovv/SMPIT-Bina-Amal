@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Imports\StudentImport;
 use App\Models\Kelas;
 use App\Models\Students;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
@@ -63,5 +66,82 @@ class StudentController extends Controller
         $createStudent = Students::create($validateData);
 
         return redirect('/admin/student/addStudent')->with($createStudent ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
+    }
+
+    public function showImport()
+    {
+        return view('student.importStudent', ['title' => 'Management Murid']);
+    }
+
+    public function import_excel(Request $request)
+    {
+        $this->validate($request, [
+            'file_murid' => 'required|mimes:csv,xls,xlsx',
+        ]);
+
+        $file = $request->file('file_murid');
+        $nama_file = rand() . $file->getClientOriginalName();
+        $file->move('file_murid', $nama_file);
+        $check = Excel::import(new StudentImport, public_path('/file_murid/' . $nama_file));
+        unlink(public_path('/file_murid/' . $nama_file));
+
+        return redirect('/admin/student/addStudent')->with($check ? ['success' => 'Data berhasil diimport'] : ['fail' => 'Data gagal diimport']);
+    }
+
+    public function showKelas()
+    {
+        return view('student.showKelas', [
+            "title" => "Management Murid",
+            "data" => Kelas::orderBy('class_name', 'ASC')->get()
+        ]);
+    }
+
+    public function manageStudent($id_kelas)
+    {
+        $murid = Students::where('kelas', $id_kelas)->orderBy('nama', 'ASC')->get();
+        $kelas = Kelas::where('id', $id_kelas)->value('class_name');
+
+        return view('student.manageStudent', [
+            "title" => "Management Murid",
+            "data" => $murid,
+            "kelas" => $kelas,
+        ]);
+    }
+
+    public function editStudent($id_kelas, $id_murid)
+    {
+        $murid = Students::where('kelas', $id_kelas)->where('id', $id_murid)->firstOrFail();
+        $kelas = Kelas::where('id', $id_kelas)->value('class_name');
+
+        return view('student.editStudent', [
+            "title" => "Management Murid",
+            "data" => $murid,
+            "kelas" => $kelas,
+            "id_murid" => $id_murid,
+            "id_kelas" => $id_kelas
+        ]);
+    }
+
+    public function updateStudent(Request $request, $id_murid, $id_kelas)
+    {
+        // if (isset($request->kelas)) {
+        //     $check = DB::table('students')->where('id', $id_murid)->update([
+        //         'nama' => $request->nama,
+        //         'nis' => $request->nis,
+        //         'kelas' => $this->getUserID($request->input('kelas'))
+        //     ]);
+        // } else {
+        $check = DB::table('students')->where('id', $id_murid)->update([
+            'nama' => $request->nama,
+            'nis' => $request->nis,
+        ]);
+        // }
+        return redirect()->route('student.manageStudent', ['id_kelas' => $id_kelas])->with($check ? ['success' => 'Data berhasil diganti'] : ['fail' => 'Data gagal diganti']);
+    }
+
+    public function destroyStudent(Students $id_murid)
+    {
+        $check = Students::where('id', $id_murid->id)->delete();
+        return redirect()->back()->with($check ? ['success' => 'Data berhasil dihapus'] : ['fail' => 'Data gagal dihapus']);
     }
 }

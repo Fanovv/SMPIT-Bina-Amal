@@ -273,7 +273,7 @@
                         <li class="nav-item dropdown {{ $title==='Management Murid'? 'active' : '' }}">
                             <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Murid</span></a>
                             <ul class="dropdown-menu">
-                                <li class="{{ $title==='Management Murid'? 'active' : '' }}"><a class=" nav-link" href="{{ route('student.showAddStudent') }}">Tambah Murid</a></li>
+                                <li class="{{ $title==='Management Murid'? 'active' : '' }}"><a class=" nav-link" href="{{ route('student.showKelas') }}">Management Murid</a></li>
                             </ul>
                         </li>
                         <!-- 

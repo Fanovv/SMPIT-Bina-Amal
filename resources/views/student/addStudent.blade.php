@@ -10,7 +10,7 @@ document.title = "Tambah Murid"
             <h1>Tambah Murid</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item active"><a href="">Management Murid</a>
+                <div class="breadcrumb-item active"><a href="{{ route('student.showKelas') }}">Management Murid</a>
                 </div>
                 <div class="breadcrumb-item"><a>Tambah Murid</a></div>
             </div>
@@ -23,7 +23,7 @@ document.title = "Tambah Murid"
                     <div class="card-header">
                         <h4>Tambah Murid</h4>
                         <div class="card-header-action">
-                            <a href="{{ route('classes.showImport') }}" class="btn btn-success">
+                            <a href="{{ route('student.showImport') }}" class="btn btn-success">
                                 Import Data
                             </a>
                         </div>

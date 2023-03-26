@@ -7,15 +7,15 @@
 
 @section('content')
 <script>
-    document.title = "Management Students"
+document.title = "Management Murid"
 </script>
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Management Students</h1>
+            <h1>Management Murid</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item">Management Students</div>
+                <div class="breadcrumb-item">Management Murid</div>
             </div>
         </div>
 
@@ -42,39 +42,57 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h4>Management Students</h4>
-                    <div class="card-header-action">
-                        <a href="{{ route('admin.addStudents') }}" class="btn btn btn-success">Tambah Siswa</a>
+                    <h4>Management Murid</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table-striped table" id="table-1">
+                            <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>Nomor Induk Siswa</th>
+                                    <th>Kelas</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $data)
+                                <tr>
+                                    <td>{{ $data->nama }}</td>
+                                    <td>{{ $data->nis }}</td>
+                                    <td>{{ $kelas }}</td>
+                                    <td><a href="/admin/student/manage/{{ $data->kelas }}/edit/{{ $data->id }}"
+                                            class="btn btn-icon icon-left btn-warning"><i
+                                                class="far fa-edit"></i>Edit</a>
+                                        <form action="/admin/student/manage/delete/{{ $data->id }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            <button class="btn btn-icon icon-left btn-danger"
+                                                onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i
+                                                    class="fas fa-times"></i>Hapus</a></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                @foreach($data as $data)
-                <div class="col-lg-2 col-md-9 col-9 col-sm-9">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="text-center pt-1 pb-1">
-                                <h4>{{ $data->class_name }}</h4>
-                                <br></br>
-                                <a href="/admin/class/{{ $data->id }}/edit" class="btn btn-primary btn-lg btn-round">
-                                    EDIT
-                                </a>
-                                <br></br>
-                                <form action="/admin/class/delete/{{ $data -> id }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button class="btn btn-danger btn-lg btn-round" onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i></i>DELETE</a></button>
-                                </form>
-                                <!-- <a href="#" class="btn btn-danger btn-lg btn-round">
-                                    DELETE
-                                </a> -->
-                            </div>
-                        </div>
-                    </div>
+                <div class="card-footer bg-whitesmoke">
+
                 </div>
-                @endforeach
             </div>
         </div>
     </section>
 </div>
 
 @endsection
+
+@push('scripts')
+<!-- JS Libraies -->
+<script src="{{ asset('js/page/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.12.1/r-2.3.0/datatables.min.js"></script>
+<!-- Page Specific JS File -->
+<script src="{{ asset('js/page/modules-datatables.js') }}"></script>
+@endpush

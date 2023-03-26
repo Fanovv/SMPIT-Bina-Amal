@@ -40,12 +40,23 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::resource('/class', App\Http\Controllers\Users\KelasController::class)->except(['index', 'destroy', 'create']);
 
         //Murid
+        Route::get('/student', [App\Http\Controllers\Users\StudentController::class, 'showKelas'])->name('student.showKelas');
+        Route::get('/student/manage/{id_kelas}', [App\Http\Controllers\Users\StudentController::class, 'manageStudent'])->name('student.manageStudent');
+        Route::get('/student/manage/{id_kelas}/edit/{id_murid}', [App\Http\Controllers\Users\StudentController::class, 'editStudent'])->name('student.editStudent');
         Route::get('/student/addStudent', [App\Http\Controllers\Users\StudentController::class, 'showAddStudent'])->name('student.showAddStudent');
+        Route::get('/student/addStudent/import', [App\Http\Controllers\Users\StudentController::class, 'showImport'])->name('student.showImport');
         Route::post('/student/checkKelas', [App\Http\Controllers\Users\StudentController::class, 'checkKelas'])->name('student.checkKelas');
+        Route::put('/student/manage/{id_kelas}/edit/{id_murid}/update', [App\Http\Controllers\Users\StudentController::class, 'updateStudent'])->name('student.updateStudent');
+        Route::post('/student/manage/delete/{id_murid}', [App\Http\Controllers\Users\StudentController::class, 'destroyStudent'])->name('student.destroyStudent');
+        Route::post('/student/addStudent/import', [App\Http\Controllers\Users\StudentController::class, 'import_excel'])->name('student.importExcel');
         Route::resource('/student', App\Http\Controllers\Users\StudentController::class)->except(['index', 'destroy']);
     });
 
-    Route::group(['middleware' => ['auth', 'user-access:wali']], function () {
+    Route::group(['middleware' => ['auth', 'user-access:wali'], 'prefix' => 'wali'], function () {
         Route::get('/Wali', [App\Http\Controllers\Users\WaliController::class, 'index'])->name('wali.dashboard');
+    });
+
+    Route::group(['middleware' => ['auth', 'user-access:tu'], 'prefix' => 'tatausaha'], function () {
+        Route::get('/', [App\Http\Controllers\Users\TataUsahaController::class, 'index'])->name('tu.dashboard');
     });
 });
