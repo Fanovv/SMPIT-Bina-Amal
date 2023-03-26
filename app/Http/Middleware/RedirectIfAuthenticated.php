@@ -28,6 +28,8 @@ class RedirectIfAuthenticated
                     return redirect()->route('admin.dashboard');
                 } elseif ($user->level == 'wali') {
                     return redirect()->route('wali.dashboard');
+                } elseif ($user->level == 'tu') {
+                    return redirect()->route('tu.dashboard');
                 } else {
                     return redirect(RouteServiceProvider::HOME);
                 }

@@ -25,9 +25,9 @@ class AdminController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
+            'level' => 'required|in:wali,tu',
         ]);
 
-        $validatedData['level'] = 'wali';
         $validatedData['password'] = Hash::make($validatedData['password']);
 
         $check = User::create($validatedData);

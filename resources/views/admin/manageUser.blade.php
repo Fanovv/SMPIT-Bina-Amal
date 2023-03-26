@@ -73,11 +73,13 @@
                                         Wali Kelas/Wali Asrama
                                     </td>
                                     @endif
+                                    @if ($data->level == 'tu')
+                                    <td>
+                                        Tata Usaha
+                                    </td>
+                                    @endif
                                     <td><a href="/admin/manage/user/{{ $data->id }}/edit" class="btn btn-icon icon-left btn-warning"><i class="far fa-edit"></i>Edit</a>
-                                        @if ($data->level == 'wali')
-                                        <!-- <a href="/admin/manage/delete/{{ $data -> id }}"
-                                            class="btn btn-icon icon-left btn-danger" onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i
-                                                class="far fa-edit"></i>Edit</a> -->
+                                        @if ($data->level == 'wali' || $data->level == 'tu')
                                         <form action="/admin/manage/delete/{{ $data -> id }}" method="POST" class="d-inline">
                                             @csrf
                                             <button class="btn btn-icon icon-left btn-danger" onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i class="fas fa-times"></i>Hapus</a></button>

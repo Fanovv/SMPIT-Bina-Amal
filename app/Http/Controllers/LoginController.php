@@ -35,6 +35,8 @@ class LoginController extends Controller
                 return redirect()->intended(route('admin.dashboard'));
             } elseif ($user->level == 'wali') {
                 return redirect()->intended(route('wali.dashboard'));
+            } elseif ($user->level == 'tu') {
+                return redirect()->intended(route('tu.dashboard'));
             } else {
                 return redirect()->back()->with('fail', 'login failed');
             }
