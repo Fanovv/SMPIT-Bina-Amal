@@ -7,7 +7,7 @@
 
 @section('content')
 <script>
-document.title = "Management Murid"
+    document.title = "Data Murid {{ $kelas }}"
 </script>
 <div class="main-content">
     <section class="section">
@@ -15,7 +15,9 @@ document.title = "Management Murid"
             <h1>Management Murid</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item">Management Murid</div>
+                <div class="breadcrumb-item active"><a href="{{ route('student.showKelas') }}">Management Murid</a>
+                </div>
+                <div class="breadcrumb-item">Data Murid {{$kelas}}</div>
             </div>
         </div>
 
@@ -61,15 +63,10 @@ document.title = "Management Murid"
                                     <td>{{ $data->nama }}</td>
                                     <td>{{ $data->nis }}</td>
                                     <td>{{ $kelas }}</td>
-                                    <td><a href="/admin/student/manage/{{ $data->kelas }}/edit/{{ $data->id }}"
-                                            class="btn btn-icon icon-left btn-warning"><i
-                                                class="far fa-edit"></i>Edit</a>
-                                        <form action="/admin/student/manage/delete/{{ $data->id }}" method="POST"
-                                            class="d-inline">
+                                    <td><a href="/admin/student/manage/{{ $data->kelas }}/edit/{{ $data->id }}" class="btn btn-icon icon-left btn-warning"><i class="far fa-edit"></i>Edit</a>
+                                        <form action="/admin/student/manage/delete/{{ $data->id }}" method="POST" class="d-inline">
                                             @csrf
-                                            <button class="btn btn-icon icon-left btn-danger"
-                                                onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i
-                                                    class="fas fa-times"></i>Hapus</a></button>
+                                            <button class="btn btn-icon icon-left btn-danger" onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i class="fas fa-times"></i>Hapus</a></button>
                                         </form>
                                     </td>
                                 </tr>

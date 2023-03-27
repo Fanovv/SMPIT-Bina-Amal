@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use PHPUnit\Framework\MockObject\Builder\Stub;
 
 class StudentController extends Controller
 {
@@ -65,7 +66,7 @@ class StudentController extends Controller
 
         $createStudent = Students::create($validateData);
 
-        return redirect('/admin/student/addStudent')->with($createStudent ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
+        return redirect('/admin/student')->with($createStudent ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
     }
 
     public function showImport()
@@ -122,20 +123,12 @@ class StudentController extends Controller
         ]);
     }
 
-    public function updateStudent(Request $request, $id_murid, $id_kelas)
+    public function updateStudent(Request $request, $id_murid)
     {
-        // if (isset($request->kelas)) {
-        //     $check = DB::table('students')->where('id', $id_murid)->update([
-        //         'nama' => $request->nama,
-        //         'nis' => $request->nis,
-        //         'kelas' => $this->getUserID($request->input('kelas'))
-        //     ]);
-        // } else {
+        $id_kelas = Students::where('id', $id_murid)->value('kelas');
         $check = DB::table('students')->where('id', $id_murid)->update([
             'nama' => $request->nama,
-            'nis' => $request->nis,
         ]);
-        // }
         return redirect()->route('student.manageStudent', ['id_kelas' => $id_kelas])->with($check ? ['success' => 'Data berhasil diganti'] : ['fail' => 'Data gagal diganti']);
     }
 
@@ -143,5 +136,14 @@ class StudentController extends Controller
     {
         $check = Students::where('id', $id_murid->id)->delete();
         return redirect()->back()->with($check ? ['success' => 'Data berhasil dihapus'] : ['fail' => 'Data gagal dihapus']);
+    }
+
+    public function checkNIS(Request $request)
+    {
+        $nis = $request->input('nis');
+        $exists = Students::where('nis', 'LIKE', '%' . $nis . '%')->exists();
+        return response()->json([
+            'exists' => $exists
+        ]);
     }
 }

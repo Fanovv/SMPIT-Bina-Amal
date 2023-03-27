@@ -2,7 +2,7 @@
 
 @section('content')
 <script>
-document.title = "Tambah Murid"
+    document.title = "Tambah Murid"
 </script>
 <div class="main-content">
     <section class="section">
@@ -44,8 +44,7 @@ document.title = "Tambah Murid"
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Nama Murid</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Murid"
-                                    required>
+                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Murid" required>
                                 @error('nama')
                                 <div class="invalid-feedback">
                                     What's your name?
@@ -56,20 +55,15 @@ document.title = "Tambah Murid"
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Nomor Induk Siswa</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="nis" name="nis"
-                                    placeholder="Nomor Induk Siswa" required>
-                                @error('nis')
-                                <div class="invalid-feedback">
-                                    Oh no! Email is invalid.
+                                <input type="text" class="form-control" id="nis" name="nis" placeholder="Nomor Induk Siswa" required>
+                                <div id="error_nis">
                                 </div>
-                                @enderror
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Nama Kelas</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="kelas" name="kelas" placeholder="Nama Kelas"
-                                    required>
+                                <input type="text" class="form-control" id="kelas" name="kelas" placeholder="Nama Kelas" required>
                                 @error('kelas')
                                 <div class="invalid-feedback">
                                     Oh no! Email is invalid.
@@ -87,11 +81,9 @@ document.title = "Tambah Murid"
                         <div class="form-group row" id="minus" style="display:none">
                             <label class="col-sm-3 col-form-label">Nama Wali 1</label>
                             <div class="input-group col-sm-9">
-                                <input type="text" class="form-control" id="wali_1" name="wali_1"
-                                    placeholder="Nama Wali 1">
+                                <input type="text" class="form-control" id="wali_1" name="wali_1" placeholder="Nama Wali 1">
                                 <div class="input-group-append">
-                                    <div class="input-group-text"><span class="fa fa-minus" id="minus-icon"
-                                            style="cursor:pointer"></span>
+                                    <div class="input-group-text"><span class="fa fa-minus" id="minus-icon" style="cursor:pointer"></span>
                                     </div>
                                 </div>
                                 @error('wali_1')
@@ -104,11 +96,9 @@ document.title = "Tambah Murid"
                         <div class="form-group row" id="minus_2" style="display:none">
                             <label class="col-sm-3 col-form-label">Nama Wali 2</label>
                             <div class="input-group col-sm-9">
-                                <input type="text" class="form-control" id="wali_2" name="wali_2"
-                                    placeholder="Nama Wali 2">
+                                <input type="text" class="form-control" id="wali_2" name="wali_2" placeholder="Nama Wali 2">
                                 <div class="input-group-append">
-                                    <div class="input-group-text"><span class="fa fa-minus" id="minus-icon-2"
-                                            style="cursor:pointer"></span>
+                                    <div class="input-group-text"><span class="fa fa-minus" id="minus-icon-2" style="cursor:pointer"></span>
                                     </div>
                                 </div>
                                 @error('wali_2')
@@ -120,7 +110,7 @@ document.title = "Tambah Murid"
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <button class="btn btn-primary">Submit</button>
+                        <button class="btn btn-primary" id="tambah-button">Submit</button>
                     </div>
                 </form>
             </div>
@@ -131,52 +121,87 @@ document.title = "Tambah Murid"
 @endsection
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#kelas').on('input', function() {
-        var kelas = $(this).val();
-        $.ajax({
-            url: '{{ route("student.checkKelas") }}',
-            method: 'POST',
-            data: {
-                kelas: kelas,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                if (response.exists) {
-                    $('#plus').hide();
-                } else {
-                    $('#plus').show();
+    $(document).ready(function() {
+
+        $('#nis').mask("00.00.00.00.00000");
+        $('#nis').blur(function() {
+            var nis = $('#nis').val();
+            if (nis === '') {
+                $('#error_nis').html('').removeClass('invalid-feedback valid-feedback');
+                $('#nis').removeClass('is-invalid is-valid');
+                $('#tambah-button').attr('disabled', false);
+            } else {
+                $.ajax({
+                    url: "{{ route('student.checkNIS') }}",
+                    method: "POST",
+                    data: {
+                        nis: nis,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.exists) {
+                            $('#error_nis').html('Nomor Induk Siswa Sudah Terpakai').addClass(
+                                'invalid-feedback').removeClass('valid-feedback');
+                            $('#nis').addClass('is-invalid').removeClass('is-valid');
+                            $('#tambah-button').attr('disabled', 'disabled');
+                        } else {
+                            $('#error_nis').html('Nomor Induk Siswa Belum Terpakai').addClass(
+                                'valid-feedback').removeClass('invalid-feedback');
+                            $('#nis').addClass('is-valid').removeClass('is-invalid');
+                            $('#tambah-button').attr('disabled', false);
+                        }
+                    }
+                });
+            }
+        });
+
+        $('#kelas').on('input', function() {
+            var kelas = $(this).val();
+            $.ajax({
+                url: '{{ route("student.checkKelas") }}',
+                method: 'POST',
+                data: {
+                    kelas: kelas,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.exists) {
+                        $('#plus').hide();
+                    } else {
+                        $('#plus').show();
+                    }
+
                 }
+            });
+        });
+
+        $("#plus-icon").click(function() {
+            $("#plus").hide();
+            $("#minus").attr('style', '');
+            $("#minus_2").attr('style', '');
+        });
+
+        $("#minus-icon").click(function() {
+            $("#plus").show();
+            $("#minus").attr('style', 'display:none');
+            $("#minus_2").attr('style', 'display:none');
+            var getValue = document.getElementById("wali_2");
+            if (getValue.value != "") {
+                getValue.value = "";
+            }
+        });
+
+        $("#minus-icon-2").click(function() {
+            $("#plus").show();
+            $("#minus").attr('style', 'display:none');
+            $("#minus_2").attr('style', 'display:none');
+            var getValue = document.getElementById("wali_2");
+            if (getValue.value != "") {
+                getValue.value = "";
             }
         });
     });
-
-    $("#plus-icon").click(function() {
-        $("#plus").hide();
-        $("#minus").attr('style', '');
-        $("#minus_2").attr('style', '');
-    });
-
-    $("#minus-icon").click(function() {
-        $("#plus").show();
-        $("#minus").attr('style', 'display:none');
-        $("#minus_2").attr('style', 'display:none');
-        var getValue = document.getElementById("wali_2");
-        if (getValue.value != "") {
-            getValue.value = "";
-        }
-    });
-
-    $("#minus-icon-2").click(function() {
-        $("#plus").show();
-        $("#minus").attr('style', 'display:none');
-        $("#minus_2").attr('style', 'display:none');
-        var getValue = document.getElementById("wali_2");
-        if (getValue.value != "") {
-            getValue.value = "";
-        }
-    });
-});
 </script>
 @endpush

@@ -46,9 +46,10 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/student/addStudent', [App\Http\Controllers\Users\StudentController::class, 'showAddStudent'])->name('student.showAddStudent');
         Route::get('/student/addStudent/import', [App\Http\Controllers\Users\StudentController::class, 'showImport'])->name('student.showImport');
         Route::post('/student/checkKelas', [App\Http\Controllers\Users\StudentController::class, 'checkKelas'])->name('student.checkKelas');
-        Route::put('/student/manage/{id_kelas}/edit/{id_murid}/update', [App\Http\Controllers\Users\StudentController::class, 'updateStudent'])->name('student.updateStudent');
+        Route::put('/student/manage/{id_murid}/update', [App\Http\Controllers\Users\StudentController::class, 'updateStudent'])->name('student.updateStudent');
         Route::post('/student/manage/delete/{id_murid}', [App\Http\Controllers\Users\StudentController::class, 'destroyStudent'])->name('student.destroyStudent');
         Route::post('/student/addStudent/import', [App\Http\Controllers\Users\StudentController::class, 'import_excel'])->name('student.importExcel');
+        Route::post('/student/addStudent/check', [App\Http\Controllers\Users\StudentController::class, 'checkNIS'])->name('student.checkNIS');
         Route::resource('/student', App\Http\Controllers\Users\StudentController::class)->except(['index', 'destroy']);
     });
 

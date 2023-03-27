@@ -10,15 +10,18 @@ document.title = "Edit Murid"
             <h1>Edit Murid</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item"><a href="{{ route('admin.manageUser') }}">Management Murid</a></div>
+                <div class="breadcrumb-item active"><a href="{{ route('student.showKelas') }}">Management Murid</a>
+                </div>
+                <div class="breadcrumb-item active"><a
+                        href="{{ route('student.manageStudent', ['id_kelas' => $id_kelas]) }}">Data Murid
+                        {{$kelas}}</a></div>
                 <div class="breadcrumb-item"><a>Edit Murid</a></div>
             </div>
         </div>
 
         <div class="section-body">
             <div class="card">
-                <form method="POST"
-                    action="{{ route('student.updateStudent', ['id_murid' => $id_murid, 'id_kelas' => $id_murid]) }}"
+                <form method="POST" action="{{ route('student.updateStudent', ['id_murid' => $id_murid]) }}"
                     class="needs-validation" novalidate="">
                     @csrf
                     @method('PUT')
@@ -54,7 +57,7 @@ document.title = "Edit Murid"
                             <label class="col-sm-3 col-form-label">Nomor Induk Siswa</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="nis" name="nis"
-                                    placeholder="Nomor Induk Siswa" value="{{ $data -> nis }}">
+                                    placeholder="Nomor Induk Siswa" value="{{ $data -> nis }}" readonly>
                                 @error('nis')
                                 <div class="invalid-feedback">
                                     Terdapat Kesalahan Pada Kolom Email
