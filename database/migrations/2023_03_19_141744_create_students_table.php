@@ -21,7 +21,7 @@ return new class extends Migration
         });
 
         Schema::table('students', function (Blueprint $table) {
-            $table->foreign('kelas')->references('id')->on('classes');
+            $table->foreign('kelas')->references('id')->on('classes')->onDelete('cascade');
         });
     }
 
