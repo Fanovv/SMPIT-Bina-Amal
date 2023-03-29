@@ -51,6 +51,10 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::post('/student/addStudent/import', [App\Http\Controllers\Users\StudentController::class, 'import_excel'])->name('student.importExcel');
         Route::post('/student/addStudent/check', [App\Http\Controllers\Users\StudentController::class, 'checkNIS'])->name('student.checkNIS');
         Route::resource('/student', App\Http\Controllers\Users\StudentController::class)->except(['index', 'destroy']);
+
+        //Absen
+        Route::get('/absen', [App\Http\Controllers\Users\AttendanceController::class, 'showKelas'])->name('sholat.showKelas');
+        Route::get('/absen/{id_kelas}', [App\Http\Controllers\Users\AttendanceController::class, 'absenSholat'])->name('sholat.absenSholat');
     });
 
     Route::group(['middleware' => ['auth', 'user-access:wali'], 'prefix' => 'wali'], function () {

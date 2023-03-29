@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
+use App\Models\Kelas;
+use App\Models\Students;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,5 +27,25 @@ class AttendanceController extends Controller
 
             Log::info('Attendance record created for user ' . $user->id);
         }
+    }
+
+    public function showKelas()
+    {
+        return view('sholat.showKelas', [
+            "title" => "Absen Sholat",
+            "data" => Kelas::orderBy('class_name', 'ASC')->get()
+        ]);
+    }
+
+    public function absenSholat($id_kelas)
+    {
+        $murid = Students::where('kelas', $id_kelas)->orderBy('nama', 'ASC')->get();
+        $kelas = Kelas::where('id', $id_kelas)->value('class_name');
+
+        return view('sholat.absenSholat', [
+            "title" => 'Absen Sholat',
+            "data" => $murid,
+            "kelas" => $kelas
+        ]);
     }
 }
