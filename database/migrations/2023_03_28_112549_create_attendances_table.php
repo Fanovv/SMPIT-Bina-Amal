@@ -16,14 +16,16 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('class_id');
             $table->date('date');
-            $table->boolean('subuh')->default(true);
-            $table->boolean('zuhur')->default(true);
-            $table->boolean('ashar')->default(true);
-            $table->boolean('maghrib')->default(true);
-            $table->boolean('isya')->default(true);
+            $table->boolean('subuh')->type('BOOLEAN')->default(true);
+            $table->boolean('zuhur')->type('BOOLEAN')->default(true);
+            $table->boolean('ashar')->type('BOOLEAN')->default(true);
+            $table->boolean('maghrib')->type('BOOLEAN')->default(true);
+            $table->boolean('isya')->type('BOOLEAN')->default(true);
 
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
         });
     }
 

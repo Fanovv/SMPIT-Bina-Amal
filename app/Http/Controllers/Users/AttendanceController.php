@@ -15,11 +15,16 @@ class AttendanceController extends Controller
 {
     public static function attendanceEvent()
     {
-        $users = DB::table('students')->select('id')->get();
+        $users = DB::table('students')
+            ->join('classes', 'students.kelas', '=', 'classes.id')
+            ->select('students.id', 'classes.id as class_id')
+            ->get();
 
         foreach ($users as $user) {
+
             $attendance = new Attendance([
                 'student_id' => $user->id,
+                'class_id' => $user->class_id,
                 'date' => Carbon::now()->format('Y-m-d'),
             ]);
 
@@ -41,11 +46,15 @@ class AttendanceController extends Controller
     {
         $murid = Students::where('kelas', $id_kelas)->orderBy('nama', 'ASC')->get();
         $kelas = Kelas::where('id', $id_kelas)->value('class_name');
+        $sholat = Attendance::where('student_id', $murid->first()->id)->where('date', Carbon::now())->first();
 
+        dd($sholat);
         return view('sholat.absenSholat', [
             "title" => 'Absen Sholat',
             "data" => $murid,
-            "kelas" => $kelas
+            "kelas" => $kelas,
+            "student_id" => $murid->first()->id,
+            "sholat" => $sholat
         ]);
     }
 }

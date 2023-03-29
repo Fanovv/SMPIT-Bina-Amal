@@ -7,7 +7,7 @@
 
 @section('content')
 <script>
-document.title = "Absen Sholat {{ $kelas }}"
+    document.title = "Absen Sholat {{ $kelas }}"
 </script>
 <div class="main-content">
     <section class="section">
@@ -61,24 +61,24 @@ document.title = "Absen Sholat {{ $kelas }}"
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $data)
+                                @foreach ($data as $item)
                                 <tr>
-                                    <td>{{ $data->nama }}</td>
+                                    <td>{{ $item->nama }}</td>
                                     <td>{{ $kelas }}</td>
-                                    <td><a href="" class="btn btn-icon icon-left btn-warning"><i
-                                                class="far fa-edit"></i>Absen</a>
+                                    @if($sholat->subuh === false)
+                                    <td><a id="subuh" href="" class="btn btn-danger">Absen</a>
                                     </td>
-                                    <td><a href="" class="btn btn-icon icon-left btn-warning"><i
-                                                class="far fa-edit"></i>Absen</a>
+                                    @else
+                                    <td><a id="subuh" href="" class="btn btn-success">Absen</a>
                                     </td>
-                                    <td><a href="" class="btn btn-icon icon-left btn-warning"><i
-                                                class="far fa-edit"></i>Absen</a>
+                                    @endif
+                                    <td><a id="zuhur" href="" class="btn btn-success">Absen</a>
                                     </td>
-                                    <td><a href="" class="btn btn-icon icon-left btn-warning"><i
-                                                class="far fa-edit"></i>Absen</a>
+                                    <td><a id="ashar" href="" class="btn btn-success">Absen</a>
                                     </td>
-                                    <td><a href="" class="btn btn-icon icon-left btn-warning"><i
-                                                class="far fa-edit"></i>Absen</a>
+                                    <td><a id="maghrib" href="" class="btn btn-success">Absen</a>
+                                    </td>
+                                    <td><a id="isya" href="" class="btn btn-success">Absen</a>
                                     </td>
                                 </tr>
                                 @endforeach
