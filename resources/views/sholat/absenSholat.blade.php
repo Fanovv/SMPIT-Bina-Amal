@@ -61,24 +61,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $item)
+                                @foreach ($data as $index => $item)
                                 <tr>
-                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $nama[$index] }}</td>
                                     <td>{{ $kelas }}</td>
-                                    @if($sholat->subuh === false)
-                                    <td><a id="subuh" href="" class="btn btn-danger">Absen</a>
+                                    <td><a id="subuh" href="#" class="btn {{ $item->subuh ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->subuh ? 1 : 0 }}">{{ $item->subuh ? 'Absen' : 'Belum Absen' }}</a>
                                     </td>
-                                    @else
-                                    <td><a id="subuh" href="" class="btn btn-success">Absen</a>
+                                    <td><a id="zuhur" href="#" class="btn {{ $item->zuhur ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->zuhur ? 1 : 0 }}">{{ $item->zuhur ? 'Absen' : 'Belum Absen' }}</a>
                                     </td>
-                                    @endif
-                                    <td><a id="zuhur" href="" class="btn btn-success">Absen</a>
+                                    <td><a id="ashar" href="#" class="btn {{ $item->ashar ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->ashar ? 1 : 0 }}">{{ $item->ashar ? 'Absen' : 'Belum Absen' }}</a>
                                     </td>
-                                    <td><a id="ashar" href="" class="btn btn-success">Absen</a>
+                                    <td><a id="maghrib" href="#" class="btn {{ $item->maghrib ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->maghrib ? 1 : 0 }}">{{ $item->maghrib ? 'Absen' : 'Belum Absen' }}</a>
                                     </td>
-                                    <td><a id="maghrib" href="" class="btn btn-success">Absen</a>
-                                    </td>
-                                    <td><a id="isya" href="" class="btn btn-success">Absen</a>
+                                    <td><a id="isya" href="#" class="btn {{ $item->isya ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->isya ? 1 : 0 }}">{{ $item->isya ? 'Absen' : 'Belum Absen' }}</a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -103,4 +98,55 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.12.1/r-2.3.0/datatables.min.js"></script>
 <!-- Page Specific JS File -->
 <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+        // Define the AJAX function to update the database
+        function updateDatabase(id, value, button) {
+            $.ajax({
+                url: '{{ route("sholat.updateSholat") }}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: id,
+                    value: value,
+                    button: button.attr('id')
+                },
+                success: function(response) {
+                    console.log();
+                    if (response.success == true) {
+                        if (value == 1) {
+                            button.removeClass('btn-danger').addClass('btn-success').text('Absen');
+                        } else {
+                            button.removeClass('btn-success').addClass('btn-danger').text(
+                                'Belum Absen');
+                        }
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        $('#table-1').dataTable();
+
+        // Attach the click event handler to each button
+        $('a.prayer-button').on('click', function(event) {
+            event.preventDefault();
+            var id = $(this).data('id');
+            var value = $(this).data('value');
+            var button = $(this);
+
+            // Call the AJAX function to update the database
+            updateDatabase(id, value, button);
+        });
+
+        // setTimeout(function() {
+        //     $('#table-1').DataTable().ajax.reload(null, false);
+        // }, 500);
+    });
+</script>
 @endpush

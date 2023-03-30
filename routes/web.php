@@ -55,6 +55,7 @@ Route::group(['middleware' => 'revalidate'], function () {
         //Absen
         Route::get('/absen', [App\Http\Controllers\Users\AttendanceController::class, 'showKelas'])->name('sholat.showKelas');
         Route::get('/absen/{id_kelas}', [App\Http\Controllers\Users\AttendanceController::class, 'absenSholat'])->name('sholat.absenSholat');
+        Route::post('/absen/update', [App\Http\Controllers\Users\AttendanceController::class, 'updateSholat'])->name('sholat.updateSholat');
     });
 
     Route::group(['middleware' => ['auth', 'user-access:wali'], 'prefix' => 'wali'], function () {

@@ -44,17 +44,86 @@ class AttendanceController extends Controller
 
     public function absenSholat($id_kelas)
     {
-        $murid = Students::where('kelas', $id_kelas)->orderBy('nama', 'ASC')->get();
+        $murid = Attendance::where('class_id', $id_kelas)->where('date', Carbon::now()->format('Y-m-d'))->orderBy('student_id', 'ASC')->get();
         $kelas = Kelas::where('id', $id_kelas)->value('class_name');
-        $sholat = Attendance::where('student_id', $murid->first()->id)->where('date', Carbon::now())->first();
 
-        dd($sholat);
+        $nama = [];
+        foreach ($murid as $m) {
+            $student = Students::where('id', $m->student_id)->first();
+            $nama[] = $student ? $student->nama : null;
+        }
+        // $sholat = Attendance::where('student_id', $murid->first()->id)->where('date', Carbon::now())->first();
+
+        // dd($murid);
         return view('sholat.absenSholat', [
             "title" => 'Absen Sholat',
             "data" => $murid,
             "kelas" => $kelas,
-            "student_id" => $murid->first()->id,
-            "sholat" => $sholat
+            "nama" => $nama
+            // "sholat" => $sholat
         ]);
+    }
+
+
+
+    public function updateSholat(Request $request)
+    {
+        $id = $request->input('id');
+        $value = $request->input('value');
+        $button = $request->input('button');
+
+        $prayer = Attendance::findOrFail($id);
+        if ($prayer) {
+            // Update the prayer value in the database
+            if ($value == 0) {
+                if ($button == 'subuh') {
+                    Attendance::where('id', $id)->update([
+                        'subuh' => true
+                    ]);
+                } else if ($button == 'zuhur') {
+                    Attendance::where('id', $id)->update([
+                        'zuhur' => true
+                    ]);
+                } else if ($button == 'ashar') {
+                    Attendance::where('id', $id)->update([
+                        'ashar' => true
+                    ]);
+                } else if ($button == 'maghrib') {
+                    Attendance::where('id', $id)->update([
+                        'maghrib' => true
+                    ]);
+                } else if ($button == 'isya') {
+                    Attendance::where('id', $id)->update([
+                        'isya' => true
+                    ]);
+                }
+            } else if ($value == 1) {
+                if ($button == 'subuh') {
+                    Attendance::where('id', $id)->update([
+                        'subuh' => false
+                    ]);
+                } else if ($button == 'zuhur') {
+                    Attendance::where('id', $id)->update([
+                        'zuhur' => false
+                    ]);
+                } else if ($button == 'ashar') {
+                    Attendance::where('id', $id)->update([
+                        'ashar' => false
+                    ]);
+                } else if ($button == 'maghrib') {
+                    Attendance::where('id', $id)->update([
+                        'maghrib' => false
+                    ]);
+                } else if ($button == 'isya') {
+                    Attendance::where('id', $id)->update([
+                        'isya' => false
+                    ]);
+                }
+            }
+
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Prayer not found']);
+        }
     }
 }
