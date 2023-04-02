@@ -58,13 +58,60 @@ class AttendanceController extends Controller
         return view('sholat.absenSholat', [
             "title" => 'Absen Sholat',
             "data" => $murid,
+            "id" => $id_kelas,
             "kelas" => $kelas,
             "nama" => $nama
             // "sholat" => $sholat
         ]);
     }
 
+    public function ajaxAbsenSholat($id_kelas)
+    {
+        $murid = Attendance::where('class_id', $id_kelas)->where('date', Carbon::now()->format('Y-m-d'))->orderBy('student_id', 'ASC')->get();
+        $kelas = Kelas::where('id', $id_kelas)->value('class_name');
 
+        $nama = [];
+        foreach ($murid as $m) {
+            $student = Students::where('id', $m->student_id)->first();
+            $nama[] = $student ? $student->nama : null;
+        }
+        // $sholat = Attendance::where('student_id', $murid->first()->id)->where('date', Carbon::now())->first();
+
+        // dd($murid);
+        $response = [];
+        for ($i = 0; $i < count($murid); $i++) {
+            $response[] = [
+                '<td>' . $nama[$i] . '</td>',
+                '<td>' . $kelas . '</td>',
+                '<td>
+                    <a id="subuh" href="#" class="btn ' . ($murid[$i]['subuh'] == 1 ? 'btn-success' : 'btn-danger') . ' prayer-button" data-id="' . $murid[$i]['id'] . '" data-value="' . $murid[$i]['subuh'] . '">
+                        ' . ($murid[$i]['subuh'] == 1 ? 'Absen' : 'Belum Absen') . '
+                    </a>
+                </td>',
+                '<td>
+                    <a id="zuhur" href="#" class="btn ' . ($murid[$i]['zuhur'] == 1 ? 'btn-success' : 'btn-danger') . ' prayer-button" data-id="' . $murid[$i]['id'] . '" data-value="' . $murid[$i]['zuhur'] . '">
+                        ' . ($murid[$i]['zuhur'] == 1 ? 'Absen' : 'Belum Absen') . '
+                    </a>
+                </td>',
+                '<td>
+                    <a id="ashar" href="#" class="btn ' . ($murid[$i]['ashar'] == 1 ? 'btn-success' : 'btn-danger') . ' prayer-button" data-id="' . $murid[$i]['id'] . '" data-value="' . $murid[$i]['ashar'] . '">
+                        ' . ($murid[$i]['ashar'] == 1 ? 'Absen' : 'Belum Absen') . '
+                    </a>
+                </td>',
+                '<td>
+                    <a id="maghrib" href="#" class="btn ' . ($murid[$i]['maghrib'] == 1 ? 'btn-success' : 'btn-danger') . ' prayer-button" data-id="' . $murid[$i]['id'] . '" data-value="' . $murid[$i]['maghrib'] . '">
+                        ' . ($murid[$i]['maghrib'] == 1 ? 'Absen' : 'Belum Absen') . '
+                    </a>
+                </td>',
+                '<td>
+                    <a id="isya" href="#" class="btn ' . ($murid[$i]['isya'] == 1 ? 'btn-success' : 'btn-danger') . ' prayer-button" data-id="' . $murid[$i]['id'] . '" data-value="' . $murid[$i]['isya'] . '">
+                        ' . ($murid[$i]['isya'] == 1 ? 'Absen' : 'Belum Absen') . '
+                    </a>
+                </td>',
+            ];
+        };
+        return response()->json($response);
+    }
 
     public function updateSholat(Request $request)
     {
