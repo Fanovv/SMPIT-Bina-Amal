@@ -44,24 +44,26 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h4>Absen Sholat</h4>
+                    <h4>Tanggal :</h4>
+                    <input type="date" id="tgl-selector" value="{{ $tgl }}" onchange="change_date()">
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table-striped table" id="table-1">
-                            <thead>
-                                <tr>
-                                    <th>Nama</th>
-                                    <th>Kelas</th>
-                                    <th>Subuh</th>
-                                    <th>Dzuhur</th>
-                                    <th>Ashar</th>
-                                    <th>Maghrib</th>
-                                    <th>Isya</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php /* @foreach ($data as $index => $item)
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table-striped table" id="table-1">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Kelas</th>
+                                <th>Subuh</th>
+                                <th>Dzuhur</th>
+                                <th>Ashar</th>
+                                <th>Maghrib</th>
+                                <th>Isya</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php /* @foreach ($data as $index => $item)
                                 <tr>
                                     <td>{{ $nama[$index] }}</td>
                                     <td>{{ $kelas }}</td>
@@ -77,16 +79,16 @@
                                     </td>
                                 </tr>
                                 @endforeach */ ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-footer bg-whitesmoke">
-
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            <div class="card-footer bg-whitesmoke">
+
+            </div>
         </div>
-    </section>
+</div>
+</section>
 </div>
 
 @endsection
@@ -107,9 +109,24 @@
         // }, 500);
     });
 
+    function change_date() {
+        refresh();
+    }
+
     async function refresh() {
-        let response = await fetch(`{{ route('sholat.ajaxAbsenSholat',['id_kelas' => $id]) }}`, {
-            method: 'GET',
+        let response = await fetch(`{{ route('sholat.ajaxAbsenSholat') }}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: 'id={{ $id }}&tgl=' + document.getElementById('tgl-selector').value
+            /*data: {
+                _token: '{{ csrf_token() }}',
+                id: '{{ $id }}',
+                tgl: document.getElementById('tgl-selector').value
+            }*/
         }).then((response) => response.json());
 
         let table = $('#table-1').DataTable();
@@ -119,18 +136,6 @@
             stateSave: true,
         });
         table.search(table.search);
-
-        // Attach the click event handler to each button
-        $('a.prayer-button').on('click', function(event) {
-            event.preventDefault();
-            var id = $(this).data('id');
-            var value = $(this).data('value');
-            var button = $(this);
-
-            // Call the AJAX function to update the database
-            updateDatabase(id, value, button);
-            refresh();
-        });
     }
 
     function updateDatabase(id, value, button) {
@@ -164,6 +169,20 @@
 
     $(document).ready(function() {
         refresh();
+    });
+
+    // Attach the click event handler to each button
+    $('#table-1').DataTable().on('draw', function() {
+        $('a.prayer-button').on('click', function(event) {
+            event.preventDefault();
+            var id = $(this).data('id');
+            var value = $(this).data('value');
+            var button = $(this);
+
+            // Call the AJAX function to update the database
+            updateDatabase(id, value, button);
+            refresh();
+        });
     });
 </script>
 @endpush

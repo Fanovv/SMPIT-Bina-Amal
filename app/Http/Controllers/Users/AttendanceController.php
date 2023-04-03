@@ -60,14 +60,17 @@ class AttendanceController extends Controller
             "data" => $murid,
             "id" => $id_kelas,
             "kelas" => $kelas,
-            "nama" => $nama
+            "nama" => $nama,
+            "tgl" => Carbon::now()->format('Y-m-d')
             // "sholat" => $sholat
         ]);
     }
 
-    public function ajaxAbsenSholat($id_kelas)
+    public function ajaxAbsenSholat(Request $request)
     {
-        $murid = Attendance::where('class_id', $id_kelas)->where('date', Carbon::now()->format('Y-m-d'))->orderBy('student_id', 'ASC')->get();
+        $id_kelas = $request->input('id');
+        $tgl = $request->input('tgl');
+        $murid = Attendance::where('class_id', $id_kelas)->where('date', $tgl)->orderBy('student_id', 'ASC')->get();
         $kelas = Kelas::where('id', $id_kelas)->value('class_name');
 
         $nama = [];
