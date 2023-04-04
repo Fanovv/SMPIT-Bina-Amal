@@ -44,24 +44,26 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h4>Absen Sholat</h4>
+                    <h4>Tanggal :</h4>
+                    <input type="date" id="tgl-selector" value="{{ $tgl }}" onchange="change_date()">
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table-striped table" id="table-1">
-                            <thead>
-                                <tr>
-                                    <th>Nama</th>
-                                    <th>Kelas</th>
-                                    <th>Subuh</th>
-                                    <th>Dzuhur</th>
-                                    <th>Ashar</th>
-                                    <th>Maghrib</th>
-                                    <th>Isya</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($data as $index => $item)
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table-striped table" id="table-1">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Kelas</th>
+                                <th>Subuh</th>
+                                <th>Dzuhur</th>
+                                <th>Ashar</th>
+                                <th>Maghrib</th>
+                                <th>Isya</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php /* @foreach ($data as $index => $item)
                                 <tr>
                                     <td>{{ $nama[$index] }}</td>
                                     <td>{{ $kelas }}</td>
@@ -76,17 +78,17 @@
                                     <td><a id="isya" href="#" class="btn {{ $item->isya ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->isya ? 1 : 0 }}">{{ $item->isya ? 'Absen' : 'Belum Absen' }}</a>
                                     </td>
                                 </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-footer bg-whitesmoke">
-
+                                @endforeach */ ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            <div class="card-footer bg-whitesmoke">
+
+            </div>
         </div>
-    </section>
+</div>
+</section>
 </div>
 
 @endsection
@@ -101,39 +103,76 @@
 
 <script>
     $(document).ready(function() {
-        // Define the AJAX function to update the database
-        function updateDatabase(id, value, button) {
-            $.ajax({
-                url: '{{ route("sholat.updateSholat") }}',
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    id: id,
-                    value: value,
-                    button: button.attr('id')
-                },
-                success: function(response) {
-                    console.log();
-                    if (response.success == true) {
-                        if (value == 1) {
-                            button.removeClass('btn-danger').addClass('btn-success').text('Absen');
-                        } else {
-                            button.removeClass('btn-success').addClass('btn-danger').text(
-                                'Belum Absen');
-                        }
-                    } else {
-                        alert('Error: ' + response.message);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    alert('Error: ' + error);
-                }
-            });
-        }
-
         $('#table-1').dataTable();
+        // setTimeout(function() {
+        //     $('#table-1').DataTable().ajax.reload(null, false);
+        // }, 500);
+    });
 
-        // Attach the click event handler to each button
+    function change_date() {
+        refresh();
+    }
+
+    async function refresh() {
+        let response = await fetch(`{{ route('sholat.ajaxAbsenSholat') }}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: 'id={{ $id }}&tgl=' + document.getElementById('tgl-selector').value
+            /*data: {
+                _token: '{{ csrf_token() }}',
+                id: '{{ $id }}',
+                tgl: document.getElementById('tgl-selector').value
+            }*/
+        }).then((response) => response.json());
+
+        let table = $('#table-1').DataTable();
+        $('#table-1').DataTable({
+            data: response,
+            bDestroy: true,
+            stateSave: true,
+        });
+        table.search(table.search);
+    }
+
+    function updateDatabase(id, value, button) {
+        $.ajax({
+            url: '{{ route("sholat.updateSholat") }}',
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: id,
+                value: value,
+                button: button.attr('id')
+            },
+            success: function(response) {
+                //console.log();
+                if (response.success == true) {
+                    if (value == 1) {
+                        button.removeClass('btn-danger').addClass('btn-success').text('Absen');
+                    } else {
+                        button.removeClass('btn-success').addClass('btn-danger').text(
+                            'Belum Absen');
+                    }
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Error: ' + error);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        refresh();
+    });
+
+    // Attach the click event handler to each button
+    $('#table-1').DataTable().on('draw', function() {
         $('a.prayer-button').on('click', function(event) {
             event.preventDefault();
             var id = $(this).data('id');
@@ -142,11 +181,8 @@
 
             // Call the AJAX function to update the database
             updateDatabase(id, value, button);
+            refresh();
         });
-
-        // setTimeout(function() {
-        //     $('#table-1').DataTable().ajax.reload(null, false);
-        // }, 500);
     });
 </script>
 @endpush
