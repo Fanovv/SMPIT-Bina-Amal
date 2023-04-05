@@ -63,7 +63,8 @@
                                     <td>{{ $data->nama }}</td>
                                     <td>{{ $data->nis }}</td>
                                     <td>{{ $kelas }}</td>
-                                    <td><a href="/admin/student/manage/{{ $data->kelas }}/edit/{{ $data->id }}" class="btn btn-icon icon-left btn-warning"><i class="far fa-edit"></i>Edit</a>
+                                    <td><a href="/admin/export-student/{{ $data->id }}?tanggal=2023-04-05" class="btn btn-icon icon-left btn-success"><i class="far fa-file"></i>Export</a>
+                                        <a href="/admin/student/manage/{{ $data->kelas }}/edit/{{ $data->id }}" class="btn btn-icon icon-left btn-warning"><i class="far fa-edit"></i>Edit</a>
                                         <form action="/admin/student/manage/delete/{{ $data->id }}" method="POST" class="d-inline">
                                             @csrf
                                             <button class="btn btn-icon icon-left btn-danger" onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i class="fas fa-times"></i>Hapus</a></button>

@@ -45,7 +45,9 @@
             <div class="card">
                 <div class="card-header">
                     <h4>Tanggal :</h4>
-                    <input type="date" id="tgl-selector" value="{{ $tgl }}" onchange="change_date()">
+                    <form class="card-header-form">
+                        <input type="date" class="form-control" id="tgl-selector" value="{{ $tgl }}" onchange="change_date()">
+                    </form>
                 </div>
             </div>
             <div class="card-body">

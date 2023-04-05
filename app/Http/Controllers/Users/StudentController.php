@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\Exports\AttendanceExport;
 use App\Http\Controllers\Controller;
 use App\Imports\StudentImport;
 use App\Models\Kelas;
 use App\Models\Students;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use PHPUnit\Framework\MockObject\Builder\Stub;
 
@@ -106,6 +109,7 @@ class StudentController extends Controller
             "title" => "Management Murid",
             "data" => $murid,
             "kelas" => $kelas,
+            "tgl" => Carbon::now()->format('Y-m-d')
         ]);
     }
 
@@ -145,5 +149,13 @@ class StudentController extends Controller
         return response()->json([
             'exists' => $exists
         ]);
+    }
+
+    public function exportStudent($student_id, Request $request)
+    {
+        $tanggal = $request->input('tanggal');
+        $nama = Students::where('id', $student_id)->value('nama');
+
+        return Excel::download(new AttendanceExport($student_id, $tanggal, $nama), $nama . '-' . $tanggal . '.xlsx');
     }
 }

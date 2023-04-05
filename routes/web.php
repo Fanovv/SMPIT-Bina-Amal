@@ -57,6 +57,9 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/absen/{id_kelas}', [App\Http\Controllers\Users\AttendanceController::class, 'absenSholat'])->name('sholat.absenSholat');
         Route::post('/absen/get_data', [App\Http\Controllers\Users\AttendanceController::class, 'ajaxAbsenSholat'])->name('sholat.ajaxAbsenSholat');
         Route::post('/absen/update', [App\Http\Controllers\Users\AttendanceController::class, 'updateSholat'])->name('sholat.updateSholat');
+
+        //export file
+        Route::get('/export-student/{id}', [App\Http\Controllers\Users\StudentController::class, 'exportStudent'])->name('sholat.exportStudent');
     });
 
     Route::group(['middleware' => ['auth', 'user-access:wali'], 'prefix' => 'wali'], function () {
