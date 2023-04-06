@@ -45,6 +45,9 @@
             <div class="card">
                 <div class="card-header">
                     <h4>Management Murid</h4>
+                    <form class="card-header-form">
+                        <input type="date" class="form-control" id="tgl-selector" value="{{ $tgl }}">
+                    </form>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -63,7 +66,7 @@
                                     <td>{{ $data->nama }}</td>
                                     <td>{{ $data->nis }}</td>
                                     <td>{{ $kelas }}</td>
-                                    <td><a href="/admin/export-student/{{ $data->id }}?tanggal=2023-04-05" class="btn btn-icon icon-left btn-success"><i class="far fa-file"></i>Export</a>
+                                    <td><a href="/admin/export-student/{{ $data->id }}?tanggal=" class="btn btn-icon icon-left btn-success" id="export-btn"><i class="far fa-file"></i>Export</a>
                                         <a href="/admin/student/manage/{{ $data->kelas }}/edit/{{ $data->id }}" class="btn btn-icon icon-left btn-warning"><i class="far fa-edit"></i>Edit</a>
                                         <form action="/admin/student/manage/delete/{{ $data->id }}" method="POST" class="d-inline">
                                             @csrf
@@ -93,4 +96,12 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.12.1/r-2.3.0/datatables.min.js"></script>
 <!-- Page Specific JS File -->
 <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('#export-btn').on('click', function() {
+            var tanggal = $('#tgl-selector').val();
+            $(this).attr('href', $(this).attr('href') + tanggal);
+        });
+    });
+</script>
 @endpush
