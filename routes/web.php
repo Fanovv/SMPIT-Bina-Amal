@@ -60,6 +60,8 @@ Route::group(['middleware' => 'revalidate'], function () {
 
         //export file
         Route::get('/export-student/{id}', [App\Http\Controllers\Users\StudentController::class, 'exportStudent'])->name('sholat.exportStudent');
+        Route::get('/export-data', [App\Http\Controllers\Users\AttendanceController::class, 'exportData'])->name('sholat.exportData');
+        Route::post('/export-data/{tahun}', [App\Http\Controllers\Users\AttendanceController::class, 'exportAllData'])->name('sholat.exportAllData');
     });
 
     Route::group(['middleware' => ['auth', 'user-access:wali'], 'prefix' => 'wali'], function () {

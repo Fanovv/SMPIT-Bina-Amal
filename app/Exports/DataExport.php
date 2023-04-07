@@ -3,37 +3,40 @@
 namespace App\Exports;
 
 use App\Models\Attendance;
+use App\Models\Kelas;
 use App\Models\Students;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class AttendanceExport implements FromView, WithStyles, ShouldAutoSize
+class DataExport implements FromView, WithStyles, ShouldAutoSize
 {
     use Exportable;
 
-    private $id;
-    private $tanggal;
-    private $nama;
+    private $tahun;
 
-    public function __construct($id, $tanggal, $nama)
+    public function __construct($tahun)
     {
-        $this->id = $id;
-        $this->tanggal = $tanggal;
-        $this->nama = $nama;
+        $this->tahun = $tahun;
     }
 
     public function view(): View
     {
+        $dataSholat = Attendance::select('attendances.*', 'students.nama', 'classes.class_name')
+            ->join('students', 'attendances.student_id', '=', 'students.id')
+            ->join('classes', 'attendances.class_id', '=', 'classes.id')
+            ->where('date', 'LIKE', '%' . $this->tahun . '%')
+            ->orderBy('class_id', 'ASC')->orderBy('date', 'ASC')
+            ->get();
+
         return view('sholat.excelSholat', [
-            'nama' => $this->nama,
-            'siswa' => null,
-            'kelas' => null,
-            'datas' => Attendance::where('student_id', $this->id)->where('date', 'LIKE', '%' . $this->tanggal . '%')->orderBy('date', 'ASC')->get()
+            'nama' => 'Tahun : ' . $this->tahun,
+            'siswa' => Students::where('id', $dataSholat->first()->student_id)->value('nama'),
+            'kelas' => Kelas::where('id', $dataSholat->first()->class_id)->value('class_name'),
+            'datas' => $dataSholat
         ]);
     }
 

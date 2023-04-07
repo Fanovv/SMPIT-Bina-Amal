@@ -9,6 +9,7 @@ use App\Models\Kelas;
 use App\Models\Students;
 use App\Models\User;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
@@ -154,8 +155,10 @@ class StudentController extends Controller
     public function exportStudent($student_id, Request $request)
     {
         $tanggal = $request->input('tanggal');
+        $dateTime = new DateTime($tanggal);
+        $bulanTahun = $dateTime->format('Y-m');
         $nama = Students::where('id', $student_id)->value('nama');
 
-        return Excel::download(new AttendanceExport($student_id, $tanggal, $nama), $nama . '-' . $tanggal . '.xlsx');
+        return Excel::download(new AttendanceExport($student_id, $bulanTahun, $nama), $nama . '-' . $bulanTahun . '.xlsx');
     }
 }

@@ -15,6 +15,12 @@
             </tr>
             <tr>
                 <th>No</th>
+                @if($siswa != null)
+                <th>Nama Siswa</th>
+                @endif
+                @if($kelas != null)
+                <th>Nama Kelas</th>
+                @endif
                 <th>Tanggal</th>
                 <th>Subuh</th>
                 <th>Dzuhur</th>
@@ -27,12 +33,38 @@
             @foreach ($datas as $data)
             <tr>
                 <td>{{ $loop->iteration }}</td>
+                @if($siswa != null)
+                <td>{{ $data -> nama }}</td>
+                @endif
+                @if($kelas != null)
+                <td>{{ $data -> class_name }}</td>
+                @endif
                 <td>{{ date('d-F-Y', strtotime($data->date)) }}</td>
-                <td>{{ $data->subuh }}</td>
-                <td>{{ $data->zuhur }}</td>
-                <td>{{ $data->ashar }}</td>
-                <td>{{ $data->maghrib }}</td>
-                <td>{{ $data->isya }}</td>
+                @if($data->subuh == 1)
+                <td>Sholat</td>
+                @else
+                <td>Tidak Sholat/Alasan Lain</td>
+                @endif
+                @if($data->zuhur == 1)
+                <td>Sholat</td>
+                @else
+                <td>Tidak Sholat/Alasan Lain</td>
+                @endif
+                @if($data->ashar == 1)
+                <td>Sholat</td>
+                @else
+                <td>Tidak Sholat/Alasan Lain</td>
+                @endif
+                @if($data->maghrib == 1)
+                <td>Sholat</td>
+                @else
+                <td>Tidak Sholat/Alasan Lain</td>
+                @endif
+                @if($data->isya == 1)
+                <td>Sholat</td>
+                @else
+                <td>Tidak Sholat/Alasan Lain</td>
+                @endif
             </tr>
             @endforeach
         </tbody>

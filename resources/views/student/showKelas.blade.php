@@ -2,7 +2,7 @@
 
 @section('content')
 <script>
-document.title = "Management Murid"
+    document.title = "Management Murid"
 </script>
 <div class="main-content">
     <section class="section">
@@ -42,6 +42,9 @@ document.title = "Management Murid"
                         <a href="{{ route('student.showAddStudent') }}" class="btn btn-success btn-lg btn-round">
                             Tambah Murid
                         </a>
+                        <a href="{{ route('sholat.exportData') }}" class="btn btn-primary btn-lg btn-round">
+                            Export Data Sholat
+                        </a>
                     </div>
                 </div>
             </div>
@@ -53,8 +56,7 @@ document.title = "Management Murid"
                             <div class="text-center pt-1 pb-1">
                                 <h4>{{ $data->class_name }}</h4>
                                 <br></br>
-                                <a href="/admin/student/manage/{{ $data->id }}"
-                                    class="btn btn-primary btn-lg btn-round">
+                                <a href="/admin/student/manage/{{ $data->id }}" class="btn btn-primary btn-lg btn-round">
                                     LIHAT KELAS
                                 </a>
                             </div>

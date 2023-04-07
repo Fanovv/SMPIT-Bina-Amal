@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\Exports\DataExport;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Kelas;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceController extends Controller
 {
@@ -175,5 +177,18 @@ class AttendanceController extends Controller
         } else {
             return response()->json(['success' => false, 'message' => 'Prayer not found']);
         }
+    }
+
+    public function exportData()
+    {
+        return view('sholat.exportData', [
+            "title" => "Export Data",
+            "data" => Attendance::select(DB::raw("DATE_FORMAT(date, '%Y') as month_year"))->groupBy('month_year')->get()
+        ]);
+    }
+
+    public function exportAllData($tahun)
+    {
+        return Excel::download(new DataExport($tahun), $tahun . '.xlsx');
     }
 }
