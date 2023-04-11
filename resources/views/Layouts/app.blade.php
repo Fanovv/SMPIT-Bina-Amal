@@ -10,8 +10,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- General CSS Files -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!-- CSS Libraries -->
     @stack('css')
@@ -29,7 +31,8 @@
             <nav class="navbar navbar-expand-lg main-navbar">
                 <form class="form-inline mr-auto">
                     <ul class="navbar-nav mr-3">
-                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
+                                    class="fas fa-bars"></i></a></li>
                     </ul>
                     <!-- <div class="search-element">
                         <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250">
@@ -220,13 +223,17 @@
                             </div>
                         </div>
                     </li> -->
-                    <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                    <li class="dropdown"><a href="#" data-toggle="dropdown"
+                            class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                             <img alt="image" src="{{ asset('img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
                             @if(Auth::user() -> level == 'admin')
                             <div class="d-sm-none d-lg-inline-block">Admin, {{ Auth::user() -> name }}</div>
                             @endif
                             @if(Auth::user() -> level == 'wali')
                             <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user() -> name }}</div>
+                            @endif
+                            @if(Auth::user() -> level == 'tu')
+                            <div class="d-sm-none d-lg-inline-block">Tata Usaha, {{ Auth::user() -> name }}</div>
                             @endif
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -257,32 +264,48 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="menu-header">Dashboard</li>
-                        <li class="nav-item dropdown {{ $title==='Dashboard'||$title==='Management User'? 'active' : '' }}">
-                            <a class="nav-link has-dropdown" href="#"><i class="fas fa-fire"></i><span>Dashboard</span></a>
+                        @if(Auth::user() -> level == 'admin')
+                        <li
+                            class="nav-item dropdown {{ $title==='Dashboard'||$title==='Management User'? 'active' : '' }}">
+                            <a class="nav-link has-dropdown" href="#"><i
+                                    class="fas fa-fire"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
-                                <li class="{{ $title==='Management User'? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.manageUser') }}">Management User</a></li>
+                                <li class="{{ $title==='Management User'? 'active' : '' }}"><a class="nav-link"
+                                        href="{{ route('admin.manageUser') }}">Management User</a></li>
                                 <!-- <li><a class="nav-link" href="index.html">Ecommerce Dashboard</a></li> -->
                             </ul>
                         </li>
+                        @endif
+                        @if(Auth::user() -> level == 'tu' || Auth::user() -> level == 'admin')
                         <li class="nav-item dropdown {{ $title==='Management Kelas'? 'active' : '' }}">
                             <a href="#" class="nav-link has-dropdown"><i class="fas fa-columns"></i>
                                 <span>Kelas</span></a>
                             <ul class="dropdown-menu">
-                                <li class="{{ $title==='Management Kelas'? 'active' : '' }}"><a class="nav-link" href="{{ route('classes.manageClass') }}">management Kelas</a></li>
+                                @if(Auth::user() -> level == 'admin')
+                                <li class="{{ $title==='Management Kelas'? 'active' : '' }}"><a class="nav-link"
+                                        href="{{ route('classes.manageClass') }}">management Kelas</a></li>
+                                @elseif(Auth::user() -> level == 'tu')
+                                <li class="{{ $title==='Management Kelas'? 'active' : '' }}"><a class="nav-link"
+                                        href="{{ route('tu.classes.manageClass') }}">management Kelas</a></li>
+                                @endif
                             </ul>
                         </li>
-                        <li class="nav-item dropdown {{ $title==='Management Murid'||$title==='Export Data'? 'active' : '' }}">
+                        <li
+                            class="nav-item dropdown {{ $title==='Management Murid'||$title==='Export Data'? 'active' : '' }}">
                             <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Murid</span></a>
                             <ul class="dropdown-menu">
-                                <li class="{{ $title==='Management Murid'||$title==='Export Data'? 'active' : '' }}"><a class=" nav-link" href="{{ route('student.showKelas') }}">Management Murid</a>
+                                <li class="{{ $title==='Management Murid'||$title==='Export Data'? 'active' : '' }}"><a
+                                        class=" nav-link" href="{{ route('student.showKelas') }}">Management Murid</a>
                                 </li>
                             </ul>
                         </li>
+                        @endif
                         <li class="nav-item dropdown {{ $title==='Absen Sholat'? 'active' : '' }}">
                             <a href="#" class="nav-link has-dropdown"><i class="fas fa-th-large"></i>
                                 <span>Sholat</span></a>
                             <ul class="dropdown-menu">
-                                <li class="{{ $title==='Absen Sholat'? 'active' : '' }}"><a class="nav-link" href="{{ route('sholat.showKelas') }}">Absen
+                                <li class="{{ $title==='Absen Sholat'? 'active' : '' }}"><a class="nav-link"
+                                        href="{{ route('sholat.showKelas') }}">Absen
                                         Sholat</a></li>
                             </ul>
                         </li>
@@ -397,9 +420,11 @@
 
     <!-- General JS Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
     </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>

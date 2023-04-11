@@ -9,16 +9,25 @@ document.title = "Edit Kelas"
         <div class="section-header">
             <h1>Edit Kelas</h1>
             <div class="section-header-breadcrumb">
+                @if(Auth::user() -> level == 'admin')
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
                 <div class="breadcrumb-item active"><a href="{{ route('classes.manageClass') }}">Management Kelas</a>
                 </div>
                 <div class="breadcrumb-item"><a>Edit Kelas</a></div>
+                @elseif(Auth::user() -> level == 'tu')
+                <div class="breadcrumb-item active"><a href="{{ route('tu.dashboard') }}">Dashboard</a></div>
+                <div class="breadcrumb-item active"><a href="{{ route('tu.classes.manageClass') }}">Management Kelas</a>
+                </div>
+                <div class="breadcrumb-item"><a>Edit Kelas</a></div>
+                @endif
             </div>
         </div>
 
         <div class="section-body">
             <div class="card">
-                <form method="POST" action="/admin/class/{{ $id }}" class="needs-validation" novalidate="">
+                <form method="POST"
+                    action="@if(Auth::user() -> level == 'admin') {{ route('classes.updateClasses', ['id' => $id]) }} @elseif(Auth::user() -> level == 'tu') {{ route('tu.classes.updateClasses', ['id' => $id]) }} @endif"
+                    class="needs-validation" novalidate="">
                     @csrf
                     @method('PUT')
                     <div class="card-header">

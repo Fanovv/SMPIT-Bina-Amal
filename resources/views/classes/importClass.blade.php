@@ -2,25 +2,36 @@
 
 @section('content')
 <script>
-    document.title = "Import Kelas"
+document.title = "Import Kelas"
 </script>
 <div class="main-content">
     <section class="section">
         <div class="section-header">
             <h1>Import Kelas</h1>
             <div class="section-header-breadcrumb">
+                @if(Auth::user() -> level == 'admin')
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
                 <div class="breadcrumb-item active"><a href="{{ route('classes.manageClass') }}">Management Kelas</a>
                 </div>
                 <div class="breadcrumb-item active"><a href="{{ route('classes.showAddClasses') }}">Tambah Kelas</a>
                 </div>
                 <div class="breadcrumb-item"><a>Import Kelas</a></div>
+                @elseif(Auth::user() -> level == 'tu')
+                <div class="breadcrumb-item active"><a href="{{ route('tu.dashboard') }}">Dashboard</a></div>
+                <div class="breadcrumb-item active"><a href="{{ route('tu.classes.manageClass') }}">Management Kelas</a>
+                </div>
+                <div class="breadcrumb-item active"><a href="{{ route('tu.classes.showAddClasses') }}">Tambah Kelas</a>
+                </div>
+                <div class="breadcrumb-item"><a>Import Kelas</a></div>
+                @endif
             </div>
         </div>
 
         <div class="section-body">
             <div class="card">
-                <form method="POST" action="{{ route('classes.importExcel') }}" class="needs-validation" novalidate="" enctype="multipart/form-data">
+                <form method="POST"
+                    action="@if(Auth::user() -> level == 'admin') {{ route('classes.importExcel') }} @elseif(Auth::user() -> level == 'tu') {{ route('tu.classes.importExcel') }} @endif"
+                    class="needs-validation" novalidate="" enctype="multipart/form-data">
                     @csrf
                     <div class="card-header">
                         <h4>Import Kelas</h4>

@@ -7,6 +7,7 @@ use App\Imports\KelasImport;
 use App\Models\Kelas;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Facades\Excel as FacadesExcel;
 
@@ -38,7 +39,11 @@ class KelasController extends Controller
 
         $check = Kelas::create($validateData);
 
-        return redirect('/admin/class')->with($check ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
+        if (Auth::user()->level == 'admin') {
+            return redirect()->route('classes.manageClass')->with($check ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
+        } else if (Auth::user()->level == 'tu') {
+            return redirect()->route('tu.classes.manageClass')->with($check ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
+        }
     }
 
     public function manage()
@@ -73,7 +78,11 @@ class KelasController extends Controller
                 'wali_2' => $this->getUserID($request->input('wali_2')),
             ]);
 
-            return redirect('/admin/class')->with($check ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+            if (Auth::user()->level == 'admin') {
+                return redirect()->route('classes.manageClass')->with($check ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+            } else if (Auth::user()->level == 'tu') {
+                return redirect()->route('tu.classes.manageClass')->with($check ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+            }
         } else if (empty($wali_2) && empty($request->wali_2)) {
             $check = Kelas::where('id', $id)->update([
                 'class_name' => $request->class_name,
@@ -81,21 +90,34 @@ class KelasController extends Controller
                 'wali_2' => null
             ]);
 
-            return redirect('/admin/class')->with($check ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+            if (Auth::user()->level == 'admin') {
+                return redirect()->route('classes.manageClass')->with($check ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+            } else if (Auth::user()->level == 'tu') {
+                return redirect()->route('tu.classes.manageClass')->with($check ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+            }
         } else {
             $check = Kelas::where('id', $id)->update([
                 'class_name' => $request->class_name,
                 'wali_1' => $this->getUserID($request->input('wali_1')),
             ]);
 
-            return redirect('/admin/class')->with($check ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+            if (Auth::user()->level == 'admin') {
+                return redirect()->route('classes.manageClass')->with($check ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+            } else if (Auth::user()->level == 'tu') {
+                return redirect()->route('tu.classes.manageClass')->with($check ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+            }
         }
     }
 
     public function destroyKelas(Kelas $id)
     {
         $check = Kelas::where('id', $id->id)->delete();
-        return redirect('/admin/class')->with($check ? ['success' => 'Data berhasil dihapus'] : ['fail' => 'Data gagal dihapus']);
+
+        if (Auth::user()->level == 'admin') {
+            return redirect()->route('classes.manageClass')->with($check ? ['success' => 'Data berhasil dihapus'] : ['fail' => 'Data gagal dihapus']);
+        } else if (Auth::user()->level == 'tu') {
+            return redirect()->route('tu.classes.manageClass')->with($check ? ['success' => 'Data berhasil dihapus'] : ['fail' => 'Data gagal dihapus']);
+        }
     }
 
     public function showImport()
@@ -115,6 +137,10 @@ class KelasController extends Controller
         $check = FacadesExcel::import(new KelasImport, public_path('/file_kelas/' . $nama_file));
         unlink(public_path('/file_kelas/' . $nama_file));
 
-        return redirect('/admin/class')->with($check ? ['success' => 'Data berhasil diimport'] : ['fail' => 'Data gagal diimport']);
+        if (Auth::user()->level == 'admin') {
+            return redirect()->route('classes.manageClass')->with($check ? ['success' => 'Data berhasil diimport'] : ['fail' => 'Data gagal diimport']);
+        } else if (Auth::user()->level == 'tu') {
+            return redirect()->route('tu.classes.manageClass')->with($check ? ['success' => 'Data berhasil diimport'] : ['fail' => 'Data gagal diimport']);
+        }
     }
 }

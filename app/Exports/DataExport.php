@@ -42,7 +42,7 @@ class DataExport implements FromView, WithStyles, ShouldAutoSize
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->mergeCells("A1:G1");
+        $sheet->mergeCells("A1:I1");
 
         return [
             1 => [
