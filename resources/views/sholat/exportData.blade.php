@@ -13,12 +13,21 @@
     <section class="section">
         <div class="section-header">
             <h1>Export Data</h1>
+            @if(Auth::user() -> level == 'admin')
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
                 <div class="breadcrumb-item active"><a href="{{ route('student.showKelas') }}">Management Murid</a>
                 </div>
                 <div class="breadcrumb-item">Export Data</div>
             </div>
+            @elseif(Auth::user() -> level == 'tu')
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="{{ route('tu.dashboard') }}">Dashboard</a></div>
+                <div class="breadcrumb-item active"><a href="{{ route('tu.student.showKelas') }}">Management Murid</a>
+                </div>
+                <div class="breadcrumb-item">Export Data</div>
+            </div>
+            @endif
         </div>
 
         <div class="section-body">
@@ -60,11 +69,19 @@
                                 <tr>
                                     <td>{{ $item->month_year }}</td>
                                     <td>
-                                        <form action="/admin/export-data/{{ $item->month_year }}" method="POST" class="d-inline">
+                                        @if(Auth::user() -> level == 'admin')
+                                        <form action="{{ route('sholat.exportAllData', ['tahun' => $item->month_year]) }}" method="POST" class="d-inline">
                                             @csrf
                                             <button class="btn btn-icon icon-left btn-success export-btn" onclick="return confirm('Data yang di download akan terhapus dalam 2 tahun lagi')"><i></i>Export
                                                 Data</a></button>
                                         </form>
+                                        @elseif(Auth::user() -> level == 'tu')
+                                        <form action="{{ route('tu.sholat.exportAllData', ['tahun' => $item->month_year]) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button class="btn btn-icon icon-left btn-success export-btn" onclick="return confirm('Data yang di download akan terhapus dalam 2 tahun lagi')"><i></i>Export
+                                                Data</a></button>
+                                        </form>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

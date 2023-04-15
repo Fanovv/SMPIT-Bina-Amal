@@ -8,26 +8,18 @@ document.title = "Tambah Murid"
     <section class="section">
         <div class="section-header">
             <h1>Tambah Murid</h1>
-            @if(Auth::user() -> level == 'admin')
-            <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item active"><a href="{{ route('student.showKelas') }}">Management Murid</a>
-                </div>
-                <div class="breadcrumb-item"><a>Tambah Murid</a></div>
-            </div>
-            @elseif(Auth::user() -> level == 'tu')
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('tu.dashboard') }}">Dashboard</a></div>
                 <div class="breadcrumb-item active"><a href="{{ route('tu.student.showKelas') }}">Management Murid</a>
                 </div>
                 <div class="breadcrumb-item"><a>Tambah Murid</a></div>
             </div>
-            @endif
         </div>
 
         <div class="section-body">
             <div class="card">
-                <form method="POST" action="{{ route('student.AddStudent') }}" class="needs-validation" novalidate="">
+                <form method="POST" action="{{ route('tu.student.AddStudent') }}" class="needs-validation"
+                    novalidate="">
                     @csrf
                     <div class="card-header">
                         <h4>Tambah Murid</h4>
@@ -164,7 +156,7 @@ $(document).ready(function() {
             $('#tambah-button').attr('disabled', false);
         } else {
             $.ajax({
-                url: "{{ route('student.checkNIS') }}",
+                url: "{{ route('tu.student.checkNIS') }}",
                 method: "POST",
                 data: {
                     nis: nis,
@@ -190,7 +182,7 @@ $(document).ready(function() {
     $('#kelas').on('input', function() {
         var kelas = $(this).val();
         $.ajax({
-            url: '{{ route("student.checkKelas") }}',
+            url: '{{ route("tu.student.checkKelas") }}',
             method: 'POST',
             data: {
                 kelas: kelas,

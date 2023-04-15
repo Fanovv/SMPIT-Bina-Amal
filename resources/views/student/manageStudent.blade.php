@@ -7,18 +7,27 @@
 
 @section('content')
 <script>
-document.title = "Data Murid {{ $kelas }}"
+    document.title = "Data Murid {{ $kelas }}"
 </script>
 <div class="main-content">
     <section class="section">
         <div class="section-header">
             <h1>Management Murid</h1>
+            @if(Auth::user() -> level == 'admin')
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
                 <div class="breadcrumb-item active"><a href="{{ route('student.showKelas') }}">Management Murid</a>
                 </div>
                 <div class="breadcrumb-item">Data Murid {{$kelas}}</div>
             </div>
+            @elseif(Auth::user() -> level == 'tu')
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="{{ route('tu.dashboard') }}">Dashboard</a></div>
+                <div class="breadcrumb-item active"><a href="{{ route('tu.student.showKelas') }}">Management Murid</a>
+                </div>
+                <div class="breadcrumb-item">Data Murid {{$kelas}}</div>
+            </div>
+            @endif
         </div>
 
         <div class="section-body">
@@ -66,20 +75,23 @@ document.title = "Data Murid {{ $kelas }}"
                                     <td>{{ $data->nama }}</td>
                                     <td>{{ $data->nis }}</td>
                                     <td>{{ $kelas }}</td>
-                                    <td><a href="/admin/export-student/{{ $data->id }}?tanggal="
-                                            class="btn btn-icon icon-left btn-success" id="export-btn"><i
-                                                class="far fa-file"></i>Export</a>
-                                        <a href="/admin/student/manage/{{ $data->kelas }}/edit/{{ $data->id }}"
-                                            class="btn btn-icon icon-left btn-warning"><i
-                                                class="far fa-edit"></i>Edit</a>
-                                        <form action="/admin/student/manage/delete/{{ $data->id }}" method="POST"
-                                            class="d-inline">
+                                    @if(Auth::user() -> level == 'admin')
+                                    <td><a href="{{ route('sholat.exportStudent', ['id' => $data->id, 'tanggal' => $tgl]) }}" class="btn btn-icon icon-left btn-success export-btn"><i class="far fa-file"></i>Export</a>
+                                        <a href="{{ route('student.editStudent', ['id_kelas' => $data->kelas, 'id_murid' => $data->id]) }}" class="btn btn-icon icon-left btn-warning"><i class="far fa-edit"></i>Edit</a>
+                                        <form action="{{ route('student.destroyStudent', ['id_murid' => $data->id]) }}" method="POST" class="d-inline">
                                             @csrf
-                                            <button class="btn btn-icon icon-left btn-danger"
-                                                onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i
-                                                    class="fas fa-times"></i>Hapus</a></button>
+                                            <button class="btn btn-icon icon-left btn-danger" onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i class="fas fa-times"></i>Hapus</a></button>
                                         </form>
                                     </td>
+                                    @elseif(Auth::user() -> level == 'tu')
+                                    <td><a href="{{ route('tu.sholat.exportStudent', ['id' => $data->id, 'tanggal' => $tgl]) }}" class="btn btn-icon icon-left btn-success export-btn"><i class="far fa-file"></i>Export</a>
+                                        <a href="{{ route('tu.student.editStudent', ['id_kelas' => $data->kelas, 'id_murid' => $data->id]) }}" class="btn btn-icon icon-left btn-warning"><i class="far fa-edit"></i>Edit</a>
+                                        <form action="{{ route('tu.student.destroyStudent', ['id_murid' => $data->id]) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button class="btn btn-icon icon-left btn-danger" onclick="return confirm('Apakah Anda Benar Ingin Menghapus Data')"><i class="fas fa-times"></i>Hapus</a></button>
+                                        </form>
+                                    </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -104,21 +116,19 @@ document.title = "Data Murid {{ $kelas }}"
 <!-- Page Specific JS File -->
 <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
 <script>
-$(document).ready(function() {
-    $('#export-btn').on('click', function() {
-        var tanggal = $('#tgl-selector').val();
-        $(this).attr('href', $(this).attr('href') + tanggal);
-    });
-    $('#tgl-selector').on('change', function() {
-        // get the selected date
-        var selectedDate = new Date(this.value);
+    $(document).ready(function() {
+        $('.export-btn').on('click', function(e) {
+            e.preventDefault();
+            var tanggal = $('#tgl-selector').val();
+            var exportUrl = $(this).attr('href').split('?')[0] + '?tanggal=' + tanggal;
+            window.location.href = exportUrl;
+        });
 
-        // set the date to the last day of the month
-        selectedDate.setFullYear(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
-
-        // set the value of the input to the last day of the month
-        this.value = selectedDate.toISOString().slice(0, 10);
+        $('#tgl-selector').on('change', function() {
+            var selectedDate = new Date(this.value);
+            selectedDate.setFullYear(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+            this.value = selectedDate.toISOString().slice(0, 10);
+        });
     });
-});
 </script>
 @endpush

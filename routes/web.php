@@ -51,7 +51,8 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::post('/student/manage/delete/{id_murid}', [App\Http\Controllers\Users\StudentController::class, 'destroyStudent'])->name('student.destroyStudent');
         Route::post('/student/addStudent/import', [App\Http\Controllers\Users\StudentController::class, 'import_excel'])->name('student.importExcel');
         Route::post('/student/addStudent/check', [App\Http\Controllers\Users\StudentController::class, 'checkNIS'])->name('student.checkNIS');
-        Route::resource('/student', App\Http\Controllers\Users\StudentController::class)->except(['index', 'destroy']);
+        Route::post('/student', [App\Http\Controllers\Users\StudentController::class, 'store'])->name('student.AddStudent');
+
 
         //Absen
         Route::get('/absen', [App\Http\Controllers\Users\AttendanceController::class, 'showKelas'])->name('sholat.showKelas');
@@ -79,6 +80,22 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::put('/class/{id}', [App\Http\Controllers\Users\KelasController::class, 'update'])->name('tu.classes.updateClasses');
 
         //Murid
+        Route::get('/student', [App\Http\Controllers\Users\StudentController::class, 'showKelas'])->name('tu.student.showKelas');
+        Route::get('/student/manage/{id_kelas}', [App\Http\Controllers\Users\StudentController::class, 'manageStudent'])->name('tu.student.manageStudent');
+        Route::get('/student/addStudent', [App\Http\Controllers\Users\StudentController::class, 'showAddStudent'])->name('tu.student.showAddStudent');
+        Route::get('/student/manage/{id_kelas}/edit/{id_murid}', [App\Http\Controllers\Users\StudentController::class, 'editStudent'])->name('tu.student.editStudent');
+        Route::get('/student/addStudent/import', [App\Http\Controllers\Users\StudentController::class, 'showImport'])->name('tu.student.showImport');
+        Route::post('/student/manage/delete/{id_murid}', [App\Http\Controllers\Users\StudentController::class, 'destroyStudent'])->name('tu.student.destroyStudent');
+        Route::post('/student/checkKelas', [App\Http\Controllers\Users\StudentController::class, 'checkKelas'])->name('tu.student.checkKelas');
+        Route::post('/student', [App\Http\Controllers\Users\StudentController::class, 'store'])->name('tu.student.AddStudent');
+        Route::post('/student/addStudent/check', [App\Http\Controllers\Users\StudentController::class, 'checkNIS'])->name('tu.student.checkNIS');
+        Route::put('/student/manage/{id_murid}/update', [App\Http\Controllers\Users\StudentController::class, 'updateStudent'])->name('tu.student.updateStudent');
+        Route::post('/student/addStudent/import', [App\Http\Controllers\Users\StudentController::class, 'import_excel'])->name('tu.student.importExcel');
+
+        //export file
+        Route::get('/export-data', [App\Http\Controllers\Users\AttendanceController::class, 'exportData'])->name('tu.sholat.exportData');
+        Route::get('/export-student/{id}', [App\Http\Controllers\Users\StudentController::class, 'exportStudent'])->name('tu.sholat.exportStudent');
+        Route::post('/export-data/{tahun}', [App\Http\Controllers\Users\AttendanceController::class, 'exportAllData'])->name('tu.sholat.exportAllData');
     });
 
     Route::group(['middleware' => ['auth', 'user-access:wali'], 'prefix' => 'wali'], function () {

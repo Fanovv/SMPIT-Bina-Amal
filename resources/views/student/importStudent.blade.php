@@ -8,6 +8,7 @@
     <section class="section">
         <div class="section-header">
             <h1>Import Murid</h1>
+            @if(Auth::user() -> level == 'admin')
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
                 <div class="breadcrumb-item active"><a href="{{ route('student.showKelas') }}">Management Murid</a>
@@ -16,11 +17,21 @@
                 </div>
                 <div class="breadcrumb-item"><a>Import Murid</a></div>
             </div>
+            @elseif(Auth::user() -> level == 'tu')
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="{{ route('tu.dashboard') }}">Dashboard</a></div>
+                <div class="breadcrumb-item active"><a href="{{ route('tu.student.showKelas') }}">Management Murid</a>
+                </div>
+                <div class="breadcrumb-item active"><a href="{{ route('tu.student.showAddStudent') }}">Tambah Murid</a>
+                </div>
+                <div class="breadcrumb-item"><a>Import Murid</a></div>
+            </div>
+            @endif
         </div>
 
         <div class="section-body">
             <div class="card">
-                <form method="POST" action="{{ route('student.importExcel') }}" class="needs-validation" novalidate="" enctype="multipart/form-data">
+                <form method="POST" action="@if(Auth::user() -> level == 'admin') {{ route('student.importExcel') }} @elseif(Auth::user() -> level == 'tu') {{ route('tu.student.importExcel') }} @endif" class="needs-validation" novalidate="" enctype="multipart/form-data">
                     @csrf
                     <div class="card-header">
                         <h4>Import Murid</h4>

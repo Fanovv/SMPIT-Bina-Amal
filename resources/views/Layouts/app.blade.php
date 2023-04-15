@@ -294,9 +294,16 @@
                             class="nav-item dropdown {{ $title==='Management Murid'||$title==='Export Data'? 'active' : '' }}">
                             <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Murid</span></a>
                             <ul class="dropdown-menu">
+                                @if(Auth::user() -> level == 'admin')
                                 <li class="{{ $title==='Management Murid'||$title==='Export Data'? 'active' : '' }}"><a
                                         class=" nav-link" href="{{ route('student.showKelas') }}">Management Murid</a>
                                 </li>
+                                @elseif(Auth::user() -> level == 'tu')
+                                <li class="{{ $title==='Management Murid'||$title==='Export Data'? 'active' : '' }}"><a
+                                        class=" nav-link" href="{{ route('tu.student.showKelas') }}">Management
+                                        Murid</a>
+                                </li>
+                                @endif
                             </ul>
                         </li>
                         @endif

@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Maatwebsite\Excel\Facades\Excel;
@@ -20,7 +21,11 @@ class StudentController extends Controller
 {
     public function showAddStudent()
     {
-        return view('student.addStudent', ['title' => 'Management Murid']);
+        if (Auth::user()->level == 'admin') {
+            return view('student.addStudent', ['title' => 'Management Murid']);
+        } else if (Auth::user()->level == 'tu') {
+            return view('tu.addStudent', ['title' => 'Management Murid']);
+        }
     }
 
     public function checkKelas(Request $request)
@@ -70,7 +75,11 @@ class StudentController extends Controller
 
         $createStudent = Students::create($validateData);
 
-        return redirect('/admin/student')->with($createStudent ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
+        if (Auth::user()->level == 'admin') {
+            return redirect('/admin/student')->with($createStudent ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
+        } else if (Auth::user()->level == 'tu') {
+            return redirect('/tatausaha/student')->with($createStudent ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
+        }
     }
 
     public function showImport()
@@ -90,7 +99,11 @@ class StudentController extends Controller
         $check = Excel::import(new StudentImport, public_path('/file_murid/' . $nama_file));
         unlink(public_path('/file_murid/' . $nama_file));
 
-        return redirect('/admin/student/addStudent')->with($check ? ['success' => 'Data berhasil diimport'] : ['fail' => 'Data gagal diimport']);
+        if (Auth::user()->level == 'admin') {
+            return redirect('/admin/student/addStudent')->with($check ? ['success' => 'Data berhasil diimport'] : ['fail' => 'Data gagal diimport']);
+        } else if (Auth::user()->level == 'tu') {
+            return redirect('/tatausaha/student/addStudent')->with($check ? ['success' => 'Data berhasil diimport'] : ['fail' => 'Data gagal diimport']);
+        }
     }
 
     public function showKelas()
@@ -134,7 +147,11 @@ class StudentController extends Controller
         $check = DB::table('students')->where('id', $id_murid)->update([
             'nama' => $request->nama,
         ]);
-        return redirect()->route('student.manageStudent', ['id_kelas' => $id_kelas])->with($check ? ['success' => 'Data berhasil diganti'] : ['fail' => 'Data gagal diganti']);
+        if (Auth::user()->level == 'admin') {
+            return redirect()->route('student.manageStudent', ['id_kelas' => $id_kelas])->with($check ? ['success' => 'Data berhasil diganti'] : ['fail' => 'Data gagal diganti']);
+        } else if (Auth::user()->level == 'tu') {
+            return redirect()->route('tu.student.manageStudent', ['id_kelas' => $id_kelas])->with($check ? ['success' => 'Data berhasil diganti'] : ['fail' => 'Data gagal diganti']);
+        }
     }
 
     public function destroyStudent(Students $id_murid)
