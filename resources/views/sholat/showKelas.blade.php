@@ -8,10 +8,22 @@
     <section class="section">
         <div class="section-header">
             <h1>Absen Sholat</h1>
+            @if(Auth::user()->level == 'admin')
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
                 <div class="breadcrumb-item"><a>Absen Sholat</a></div>
             </div>
+            @elseif(Auth::user()->level == 'tu')
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="{{ route('tu.dashboard') }}">Dashboard</a></div>
+                <div class="breadcrumb-item"><a>Absen Sholat</a></div>
+            </div>
+            @elseif(Auth::user()->level == 'wali')
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="{{ route('wali.dashboard') }}">Dashboard</a></div>
+                <div class="breadcrumb-item"><a>Absen Sholat</a></div>
+            </div>
+            @endif
         </div>
 
         <div class="section-body">
@@ -48,9 +60,19 @@
                             <div class="text-center pt-1 pb-1">
                                 <h4>{{ $data->class_name }}</h4>
                                 <br></br>
+                                @if(Auth::user() -> level == 'admin')
                                 <a href="{{ route('sholat.absenSholat',['id_kelas' => $data->id]) }}" class="btn btn-primary btn-lg btn-round">
                                     LIHAT KELAS
                                 </a>
+                                @elseif(Auth::user() -> level == 'tu')
+                                <a href="{{ route('tu.sholat.absenSholat',['id_kelas' => $data->id]) }}" class="btn btn-primary btn-lg btn-round">
+                                    LIHAT KELAS
+                                </a>
+                                @elseif(Auth::user() -> level == 'wali')
+                                <a href="{{ route('wali.sholat.absenSholat',['id_kelas' => $data->id]) }}" class="btn btn-primary btn-lg btn-round">
+                                    LIHAT KELAS
+                                </a>
+                                @endif
                             </div>
                         </div>
                     </div>

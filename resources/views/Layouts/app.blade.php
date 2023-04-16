@@ -311,9 +311,19 @@
                             <a href="#" class="nav-link has-dropdown"><i class="fas fa-th-large"></i>
                                 <span>Sholat</span></a>
                             <ul class="dropdown-menu">
+                                @if(Auth::user() -> level == 'admin')
                                 <li class="{{ $title==='Absen Sholat'? 'active' : '' }}"><a class="nav-link"
                                         href="{{ route('sholat.showKelas') }}">Absen
                                         Sholat</a></li>
+                                @elseif(Auth::user() -> level == 'tu')
+                                <li class="{{ $title==='Absen Sholat'? 'active' : '' }}"><a class="nav-link"
+                                        href="{{ route('tu.sholat.showKelas') }}">Absen
+                                        Sholat</a></li>
+                                @elseif(Auth::user() -> level == 'wali')
+                                <li class="{{ $title==='Absen Sholat'? 'active' : '' }}"><a class="nav-link"
+                                        href="{{ route('wali.sholat.showKelas') }}">Absen
+                                        Sholat</a></li>
+                                @endif
                             </ul>
                         </li>
                         <!-- <li class="nav-item dropdown">

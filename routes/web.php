@@ -96,9 +96,21 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/export-data', [App\Http\Controllers\Users\AttendanceController::class, 'exportData'])->name('tu.sholat.exportData');
         Route::get('/export-student/{id}', [App\Http\Controllers\Users\StudentController::class, 'exportStudent'])->name('tu.sholat.exportStudent');
         Route::post('/export-data/{tahun}', [App\Http\Controllers\Users\AttendanceController::class, 'exportAllData'])->name('tu.sholat.exportAllData');
+
+        //Absen
+        Route::get('/absen', [App\Http\Controllers\Users\AttendanceController::class, 'showKelas'])->name('tu.sholat.showKelas');
+        Route::get('/absen/{id_kelas}', [App\Http\Controllers\Users\AttendanceController::class, 'absenSholat'])->name('tu.sholat.absenSholat');
+        Route::post('/absen/get_data', [App\Http\Controllers\Users\AttendanceController::class, 'ajaxAbsenSholat'])->name('tu.sholat.ajaxAbsenSholat');
+        Route::post('/absen/update', [App\Http\Controllers\Users\AttendanceController::class, 'updateSholat'])->name('tu.sholat.updateSholat');
     });
 
     Route::group(['middleware' => ['auth', 'user-access:wali'], 'prefix' => 'wali'], function () {
         Route::get('/', [App\Http\Controllers\Users\WaliController::class, 'index'])->name('wali.dashboard');
+
+        //Absen
+        Route::get('/absen', [App\Http\Controllers\Users\AttendanceController::class, 'showKelas'])->name('wali.sholat.showKelas');
+        Route::get('/absen/{id_kelas}', [App\Http\Controllers\Users\AttendanceController::class, 'absenSholat'])->name('wali.sholat.absenSholat');
+        Route::post('/absen/get_data', [App\Http\Controllers\Users\AttendanceController::class, 'ajaxAbsenSholat'])->name('wali.sholat.ajaxAbsenSholat');
+        Route::post('/absen/update', [App\Http\Controllers\Users\AttendanceController::class, 'updateSholat'])->name('wali.sholat.updateSholat');
     });
 });

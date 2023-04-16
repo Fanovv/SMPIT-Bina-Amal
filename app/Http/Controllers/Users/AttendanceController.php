@@ -9,6 +9,7 @@ use App\Models\Kelas;
 use App\Models\Students;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
@@ -38,6 +39,13 @@ class AttendanceController extends Controller
 
     public function showKelas()
     {
+        if (Auth::user()->level == 'wali') {
+            return view('sholat.showKelas', [
+                "title" => "Absen Sholat",
+                "data" => Kelas::where('wali_1', Auth::user()->id)->orWhere('wali_2', Auth::user()->id)->orderBy('class_name', 'ASC')->get()
+            ]);
+        }
+
         return view('sholat.showKelas', [
             "title" => "Absen Sholat",
             "data" => Kelas::orderBy('class_name', 'ASC')->get()
@@ -54,18 +62,38 @@ class AttendanceController extends Controller
             $student = Students::where('id', $m->student_id)->first();
             $nama[] = $student ? $student->nama : null;
         }
-        // $sholat = Attendance::where('student_id', $murid->first()->id)->where('date', Carbon::now())->first();
 
-        // dd($murid);
-        return view('sholat.absenSholat', [
-            "title" => 'Absen Sholat',
-            "data" => $murid,
-            "id" => $id_kelas,
-            "kelas" => $kelas,
-            "nama" => $nama,
-            "tgl" => Carbon::now()->format('Y-m-d')
-            // "sholat" => $sholat
-        ]);
+        if (Auth::user()->level == 'admin') {
+            return view('sholat.absenSholat', [
+                "title" => 'Absen Sholat',
+                "data" => $murid,
+                "id" => $id_kelas,
+                "kelas" => $kelas,
+                "nama" => $nama,
+                "tgl" => Carbon::now()->format('Y-m-d')
+                // "sholat" => $sholat
+            ]);
+        } else if (Auth::user()->level == 'tu') {
+            return view('tu.absenSholat', [
+                "title" => 'Absen Sholat',
+                "data" => $murid,
+                "id" => $id_kelas,
+                "kelas" => $kelas,
+                "nama" => $nama,
+                "tgl" => Carbon::now()->format('Y-m-d')
+                // "sholat" => $sholat
+            ]);
+        } else if (Auth::user()->level == 'wali') {
+            return view('Wali.absenSholat', [
+                "title" => 'Absen Sholat',
+                "data" => $murid,
+                "id" => $id_kelas,
+                "kelas" => $kelas,
+                "nama" => $nama,
+                "tgl" => Carbon::now()->format('Y-m-d')
+                // "sholat" => $sholat
+            ]);
+        }
     }
 
     public function ajaxAbsenSholat(Request $request)
