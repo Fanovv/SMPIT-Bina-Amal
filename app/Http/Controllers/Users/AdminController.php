@@ -5,10 +5,48 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
+    public function getProfile()
+    {
+        return view('profile', [
+            "title" => "Edit Profile",
+            "data" => Auth::user()
+        ]);
+    }
+
+    public function updateProfile(Request $request, $id)
+    {
+        if (isset($request->password)) {
+            $validatedData = $request->validate([
+                'email' => 'email',
+                'password' => 'min:8',
+            ]);
+
+            $check = User::where('id', $id)->update([
+                'password' => Hash::make($validatedData['password']),
+                'name' => $request->name,
+                'email' => $validatedData['email']
+            ]);
+
+            return back()->with($check ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+        } else {
+            $validatedData = $request->validate([
+                'email' => 'email',
+            ]);
+
+            $check = User::where('id', $id)->update([
+                'name' => $request->name,
+                'email' => $validatedData['email']
+            ]);
+
+            return back()->with($check ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+        }
+    }
+
     public function index()
     {
         return view('admin.dashboard', ["title" => "Dashboard",]);

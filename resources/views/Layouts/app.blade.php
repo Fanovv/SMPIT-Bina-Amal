@@ -237,9 +237,21 @@
                             @endif
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href="features-profile.html" class="dropdown-item has-icon">
+                            @if(Auth::user() -> level == 'admin')
+                            <a href="{{ route('admin.profile') }}" class="dropdown-item has-icon">
                                 <i class="far fa-user"></i> Profile
                             </a>
+                            @endif
+                            @if(Auth::user() -> level == 'tu')
+                            <a href="{{ route('tu.profile') }}" class="dropdown-item has-icon">
+                                <i class="far fa-user"></i> Profile
+                            </a>
+                            @endif
+                            @if(Auth::user() -> level == 'wali')
+                            <a href="{{ route('wali.profile') }}" class="dropdown-item has-icon">
+                                <i class="far fa-user"></i> Profile
+                            </a>
+                            @endif
                             <!-- <a href="features-activities.html" class="dropdown-item has-icon">
                                 <i class="fas fa-bolt"></i> Activities
                             </a>
