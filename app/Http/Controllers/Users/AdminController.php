@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kelas;
+use App\Models\Students;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,7 +51,13 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('admin.dashboard', ["title" => "Dashboard",]);
+        return view('admin.dashboard', [
+            "title" => "Dashboard",
+            "user" => User::count(),
+            "kelas" => Kelas::count(),
+            "murid" => Students::count(),
+            "nama" => Auth::user(),
+        ]);
     }
 
     public function addUser()

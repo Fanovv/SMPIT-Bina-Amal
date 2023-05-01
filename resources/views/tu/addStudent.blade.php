@@ -17,6 +17,26 @@ document.title = "Tambah Murid"
         </div>
 
         <div class="section-body">
+            @if(session()->has('success'))
+            <div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('success') }}
+                </div>
+            </div>
+            @endif
+            @if(session()->has('fail'))
+            <div class="alert alert-danger alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('fail') }}
+                </div>
+            </div>
+            @endif
             <div class="card">
                 <form method="POST" action="{{ route('tu.student.AddStudent') }}" class="needs-validation"
                     novalidate="">

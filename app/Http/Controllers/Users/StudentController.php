@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 use App\Exports\AttendanceExport;
 use App\Http\Controllers\Controller;
 use App\Imports\StudentImport;
+use App\Models\Attendance;
 use App\Models\Kelas;
 use App\Models\Students;
 use App\Models\User;
@@ -75,10 +76,25 @@ class StudentController extends Controller
 
         $createStudent = Students::create($validateData);
 
-        if (Auth::user()->level == 'admin') {
-            return redirect('/admin/student')->with($createStudent ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
-        } else if (Auth::user()->level == 'tu') {
-            return redirect('/tatausaha/student')->with($createStudent ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
+        if($createStudent){
+            $attendance = new Attendance([
+                'student_id' => $createStudent->id,
+                'class_id' => $createStudent->kelas,
+                'date' => Carbon::now()->format('Y-m-d'),
+            ]);          
+            $attendance->save();
+            
+            if (Auth::user()->level == 'admin') {
+                return redirect('/admin/student')->with(['success' => 'Data Berhasil Ditambah']);
+            } else if (Auth::user()->level == 'tu') {
+                return redirect('/tatausaha/student')->with(['success' => 'Data Berhasil Ditambah']);
+            }
+        }else{
+            if (Auth::user()->level == 'admin') {
+                return redirect('/admin/student')->with($createStudent ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
+            } else if (Auth::user()->level == 'tu') {
+                return redirect('/tatausaha/student')->with($createStudent ? ['success' => 'Data Berhasil Ditambah'] : ['fail' => 'Data Gagal Ditambah']);
+            }
         }
     }
 
@@ -100,9 +116,9 @@ class StudentController extends Controller
         unlink(public_path('/file_murid/' . $nama_file));
 
         if (Auth::user()->level == 'admin') {
-            return redirect('/admin/student/addStudent')->with($check ? ['success' => 'Data berhasil diimport'] : ['fail' => 'Data gagal diimport']);
+            return redirect()->route('student.showAddStudent')->with($check ? ['success' => 'Data berhasil diimport'] : ['fail' => 'Data gagal diimport']);
         } else if (Auth::user()->level == 'tu') {
-            return redirect('/tatausaha/student/addStudent')->with($check ? ['success' => 'Data berhasil diimport'] : ['fail' => 'Data gagal diimport']);
+            return redirect()->route('tu.student.showAddStudent')->with($check ? ['success' => 'Data berhasil diimport'] : ['fail' => 'Data gagal diimport']);
         }
     }
 

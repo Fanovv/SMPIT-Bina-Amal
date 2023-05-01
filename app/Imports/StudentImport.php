@@ -2,9 +2,11 @@
 
 namespace App\Imports;
 
+use App\Models\Attendance;
 use App\Models\Kelas;
 use App\Models\Students;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -18,17 +20,6 @@ class StudentImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        $validator = Validator::make($row, [
-            'nama_siswa' => 'required',
-            'nomor_induk_siswa' => 'required|unique:students,nis',
-            'nama_kelas' => 'required',
-            'nama_wali_1' => 'nullable',
-            'nama_wali_2' => 'nullable',
-        ]);
-
-        if ($validator->fails()) {
-            throw new \InvalidArgumentException($validator->errors()->first());
-        }
 
         $kelasName = $row['nama_kelas'];
         $kelas = Kelas::where('class_name', 'LIKE', '%' . $kelasName . '%')->first();
@@ -36,23 +27,35 @@ class StudentImport implements ToModel, WithHeadingRow
         if (!$kelas) {
             $kelas = Kelas::create([
                 'class_name' => $row['nama_kelas'],
-                'wali_1' => $this->getUserID($row['nama_wali_1']),
+                'wali_1' => $row['nama_wali_1'] ? $this->getUserID($row['nama_wali_1']) : User::where('level', 'wali')->firstOrFail()->id,
                 'wali_2' => $row['nama_wali_2'] ? $this->getUserID($row['nama_wali_2']) : null,
             ]);
         }
 
-        return new Students([
+        $student = new Students([
             'nama' => $row['nama_siswa'],
             'nis' => $row['nomor_induk_siswa'],
             'kelas' => $kelas->id
         ]);
+    
+        $student->save();
+    
+        $attendance = new Attendance([
+            'student_id' => $student->id,
+            'class_id' => $kelas->id,
+            'date' => Carbon::now()->format('Y-m-d'),
+        ]);
+    
+        $attendance->save();
+    
+        return $student;
     }
 
     private function getUserID($name)
     {
         $user = User::where('name', 'LIKE', '%' . $name . '%')->first();
         if (!$user) {
-            throw new \InvalidArgumentException('User tidak ada: ' . $name);
+            return User::where('level', 'wali')->firstOrFail()->id;
         }
 
         return $user->id;

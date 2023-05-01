@@ -28,6 +28,26 @@ document.title = "Import Kelas"
         </div>
 
         <div class="section-body">
+            @if(session()->has('success'))
+            <div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('success') }}
+                </div>
+            </div>
+            @endif
+            @if(session()->has('fail'))
+            <div class="alert alert-danger alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('fail') }}
+                </div>
+            </div>
+            @endif
             <div class="card">
                 <form method="POST"
                     action="@if(Auth::user() -> level == 'admin') {{ route('classes.importExcel') }} @elseif(Auth::user() -> level == 'tu') {{ route('tu.classes.importExcel') }} @endif"

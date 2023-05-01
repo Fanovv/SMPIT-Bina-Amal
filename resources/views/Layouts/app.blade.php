@@ -225,7 +225,6 @@
                     </li> -->
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="{{ asset('img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
                             @if(Auth::user() -> level == 'admin')
                             <div class="d-sm-none d-lg-inline-block">Admin, {{ Auth::user() -> name }}</div>
                             @endif
@@ -275,16 +274,17 @@
                         <a>LI</a>
                     </div>
                     <ul class="sidebar-menu">
-                        <li class="menu-header">Dashboard</li>
+                        <li class="{{ $title==='Dashboard' ? 'active' : '' }}"><a class="nav-link" href="@if(Auth::user() -> level == 'admin') {{ route('admin.dashboard') }} 
+                @elseif(Auth::user() -> level == 'tu') {{ route('tu.dashboard') }} 
+                @elseif(Auth::user() -> level == 'wali') {{ route('wali.dashboard') }} 
+                @endif">
+                                <span>Dashboard</span></a></li>
                         @if(Auth::user() -> level == 'admin')
-                        <li
-                            class="nav-item dropdown {{ $title==='Dashboard'||$title==='Management User'? 'active' : '' }}">
-                            <a class="nav-link has-dropdown" href="#"><i
-                                    class="fas fa-fire"></i><span>Dashboard</span></a>
+                        <li class="nav-item dropdown {{ $title==='Management User'? 'active' : '' }}">
+                            <a class="nav-link has-dropdown" href="#"><i class="fas fa-user"></i><span>User</span></a>
                             <ul class="dropdown-menu">
                                 <li class="{{ $title==='Management User'? 'active' : '' }}"><a class="nav-link"
                                         href="{{ route('admin.manageUser') }}">Management User</a></li>
-                                <!-- <li><a class="nav-link" href="index.html">Ecommerce Dashboard</a></li> -->
                             </ul>
                         </li>
                         @endif
@@ -295,10 +295,10 @@
                             <ul class="dropdown-menu">
                                 @if(Auth::user() -> level == 'admin')
                                 <li class="{{ $title==='Management Kelas'? 'active' : '' }}"><a class="nav-link"
-                                        href="{{ route('classes.manageClass') }}">management Kelas</a></li>
+                                        href="{{ route('classes.manageClass') }}">Management Kelas</a></li>
                                 @elseif(Auth::user() -> level == 'tu')
                                 <li class="{{ $title==='Management Kelas'? 'active' : '' }}"><a class="nav-link"
-                                        href="{{ route('tu.classes.manageClass') }}">management Kelas</a></li>
+                                        href="{{ route('tu.classes.manageClass') }}">Management Kelas</a></li>
                                 @endif
                             </ul>
                         </li>

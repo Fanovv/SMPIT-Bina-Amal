@@ -18,13 +18,18 @@ class KelasImport implements ToModel, WithHeadingRow
     {
         return new Kelas([
             'class_name' => $row['nama_kelas'],
-            'wali_1' => $this->getUserID($row['nama_wali_1']),
+            'wali_1' => $row['nama_wali_1'] ? $this->getUserID($row['nama_wali_1']) : User::where('level', 'wali')->firstOrFail()->id,
             'wali_2' => $row['nama_wali_2'] ? $this->getUserID($row['nama_wali_2']) : null,
         ]);
     }
 
     private function getUserID($name)
     {
-        return User::where('name', 'LIKE', '%' . $name . '%')->firstOrFail()->id;
+        $user = User::where('name', 'LIKE', '%' . $name . '%')->firstOrFail()->id;
+        if (!$user) {
+            return User::where('level', 'wali')->firstOrFail()->id;
+        }
+
+        return $user;
     }
 }
