@@ -2,7 +2,7 @@
 
 @section('content')
 <script>
-    document.title = "Import Murid"
+document.title = "Import Murid"
 </script>
 <div class="main-content">
     <section class="section">
@@ -30,8 +30,18 @@
         </div>
 
         <div class="section-body">
+            <div class="alert alert-primary alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    Contoh file dapat di download pada beranda dan <a href="{{ asset('file/contoh-excel-siswa.xlsx') }}"><u>Disini</u></a>
+                </div>
+            </div>
             <div class="card">
-                <form method="POST" action="@if(Auth::user() -> level == 'admin') {{ route('student.importExcel') }} @elseif(Auth::user() -> level == 'tu') {{ route('tu.student.importExcel') }} @endif" class="needs-validation" novalidate="" enctype="multipart/form-data">
+                <form method="POST"
+                    action="@if(Auth::user() -> level == 'admin') {{ route('student.importExcel') }} @elseif(Auth::user() -> level == 'tu') {{ route('tu.student.importExcel') }} @endif"
+                    class="needs-validation" novalidate="" enctype="multipart/form-data">
                     @csrf
                     <div class="card-header">
                         <h4>Import Murid</h4>

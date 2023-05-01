@@ -28,6 +28,15 @@ document.title = "Import Kelas"
         </div>
 
         <div class="section-body">
+            <div class="alert alert-primary alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    Contoh file dapat di download pada beranda dan <a
+                        href="{{ asset('file/contoh-excel-kelas.xlsx') }}"><u>Disini</u></a>
+                </div>
+            </div>
             @if(session()->has('success'))
             <div class="alert alert-success alert-dismissible show fade">
                 <div class="alert-body">

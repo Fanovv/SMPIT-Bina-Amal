@@ -19,6 +19,16 @@ document.title = "Dashboard"
                     Welcome Back, {{ $nama->name }}
                 </div>
             </div>
+            <div class="alert alert-primary alert-dismissible show fade">
+                <div class="alert-body">
+                    Contoh file import excel kelas ---> <a
+                        href="{{ asset('file/contoh-excel-kelas.xlsx') }}"><u style="color:lime;">Download</u></a> <---
+                </div>
+                <div class="alert-body">
+                    Contoh file import excel murid ---> <a
+                        href="{{ asset('file/contoh-excel-siswa.xlsx') }}"><u style="color:lime;">Download</u></a> <---
+                </div>
+            </div>
             @if(session()->has('success'))
             <div class="alert alert-success alert-dismissible show fade">
                 <div class="alert-body">
