@@ -26,12 +26,11 @@
             <div class="d-flex flex-wrap align-items-stretch">
                 <div class="col-lg-4 col-md-6 col-12 order-lg-1 min-vh-100 order-2 bg-white">
                     <div class="p-4 m-3">
-                        <img src="{{ asset('img/stisla-fill.svg') }}" alt="logo" width="80"
-                            class="shadow-light rounded-circle mb-5 mt-2">
-                        <h4 class="text-dark font-weight-normal">Welcome to <span class="font-weight-bold">Stisla</span>
+                        <img src="{{ asset('img/logo.jpg') }}" alt="logo" width="70"
+                            class="mb-4 mt-2">
+                        <h4 class="text-dark font-weight-normal">Welcome to <span class="font-weight-bold">SMP-IT Bina Amal</span>
                         </h4>
-                        <p class="text-muted">Before you get started, you must login or register if you don't already
-                            have an account.</p>
+                        <p class="text-muted">Before you get started, you must login.</p>
                         <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
                             @csrf
                             <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> -->
@@ -92,12 +91,7 @@
                         </form>
 
                         <div class="text-center mt-5 text-small">
-                            Copyright &copy; Your Company. Made with 💙 by Stisla
-                            <div class="mt-2">
-                                <a href="#">Privacy Policy</a>
-                                <div class="bullet"></div>
-                                <a href="#">Terms of Service</a>
-                            </div>
+                            Copyright &copy; SMP-IT Bina Amal GunungPati. Made with 💙 by Stisla
                         </div>
                     </div>
                 </div>
@@ -106,7 +100,7 @@
                     <div class="absolute-bottom-left index-2">
                         <div class="text-light p-5 pb-2">
                             <div class="mb-5 pb-3">
-                                <h1 class="mb-2 display-4 font-weight-bold">Good Morning</h1>
+                                <h1 class="mb-2 display-4 font-weight-bold" id="greeting"></h1>
                                 <h5 class="font-weight-normal text-muted-transparent">Semarang, Indonesia</h5>
                             </div>
                             Photo by <a class="text-light bb" target="_blank"
@@ -138,6 +132,24 @@
     <script src="{{ asset('js/custom.js') }}"></script>
 
     <!-- Page Specific JS File -->
+    <script>
+    const timezone = "Asia/Jakarta";
+    const date = new Date().toLocaleString("en-US", {
+        timeZone: timezone
+    });
+    const hour = new Date(date).getHours();
+
+    let greeting;
+    if (hour < 11) {
+        greeting = "Good Morning";
+    } else if (hour < 18) {
+        greeting = "Good Afternoon";
+    } else {
+        greeting = "Good Evening";
+    }
+
+    document.getElementById("greeting").innerHTML = greeting;
+    </script>
 </body>
 
 </html>
