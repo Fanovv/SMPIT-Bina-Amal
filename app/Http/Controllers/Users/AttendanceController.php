@@ -118,27 +118,27 @@ class AttendanceController extends Controller
                 '<td>' . $kelas . '</td>',
                 '<td>
                     <a id="subuh" href="#" class="btn ' . ($murid[$i]['subuh'] == 1 ? 'btn-success' : 'btn-danger') . ' prayer-button" data-id="' . $murid[$i]['id'] . '" data-value="' . $murid[$i]['subuh'] . '">
-                        ' . ($murid[$i]['subuh'] == 1 ? 'Absen' : 'Belum Absen') . '
+                        ' . ($murid[$i]['subuh'] == 1 ? 'Tepat Waktu' : 'Masbuk/Telat') . '
                     </a>
                 </td>',
                 '<td>
                     <a id="zuhur" href="#" class="btn ' . ($murid[$i]['zuhur'] == 1 ? 'btn-success' : 'btn-danger') . ' prayer-button" data-id="' . $murid[$i]['id'] . '" data-value="' . $murid[$i]['zuhur'] . '">
-                        ' . ($murid[$i]['zuhur'] == 1 ? 'Absen' : 'Belum Absen') . '
+                        ' . ($murid[$i]['zuhur'] == 1 ? 'Tepat Waktu' : 'Masbuk/Telat') . '
                     </a>
                 </td>',
                 '<td>
                     <a id="ashar" href="#" class="btn ' . ($murid[$i]['ashar'] == 1 ? 'btn-success' : 'btn-danger') . ' prayer-button" data-id="' . $murid[$i]['id'] . '" data-value="' . $murid[$i]['ashar'] . '">
-                        ' . ($murid[$i]['ashar'] == 1 ? 'Absen' : 'Belum Absen') . '
+                        ' . ($murid[$i]['ashar'] == 1 ? 'Tepat Waktu' : 'Masbuk/Telat') . '
                     </a>
                 </td>',
                 '<td>
                     <a id="maghrib" href="#" class="btn ' . ($murid[$i]['maghrib'] == 1 ? 'btn-success' : 'btn-danger') . ' prayer-button" data-id="' . $murid[$i]['id'] . '" data-value="' . $murid[$i]['maghrib'] . '">
-                        ' . ($murid[$i]['maghrib'] == 1 ? 'Absen' : 'Belum Absen') . '
+                        ' . ($murid[$i]['maghrib'] == 1 ? 'Tepat Waktu' : 'Masbuk/Telat') . '
                     </a>
                 </td>',
                 '<td>
                     <a id="isya" href="#" class="btn ' . ($murid[$i]['isya'] == 1 ? 'btn-success' : 'btn-danger') . ' prayer-button" data-id="' . $murid[$i]['id'] . '" data-value="' . $murid[$i]['isya'] . '">
-                        ' . ($murid[$i]['isya'] == 1 ? 'Absen' : 'Belum Absen') . '
+                        ' . ($murid[$i]['isya'] == 1 ? 'Tepat Waktu' : 'Masbuk/Telat') . '
                     </a>
                 </td>',
             ];

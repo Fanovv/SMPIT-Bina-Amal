@@ -69,15 +69,15 @@
                                 <tr>
                                     <td>{{ $nama[$index] }}</td>
                                     <td>{{ $kelas }}</td>
-                                    <td><a id="subuh" href="#" class="btn {{ $item->subuh ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->subuh ? 1 : 0 }}">{{ $item->subuh ? 'Absen' : 'Belum Absen' }}</a>
+                                    <td><a id="subuh" href="#" class="btn {{ $item->subuh ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->subuh ? 1 : 0 }}">{{ $item->subuh ? 'Tepat Waktu' : 'Masbuk/Telat' }}</a>
                                     </td>
-                                    <td><a id="zuhur" href="#" class="btn {{ $item->zuhur ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->zuhur ? 1 : 0 }}">{{ $item->zuhur ? 'Absen' : 'Belum Absen' }}</a>
+                                    <td><a id="zuhur" href="#" class="btn {{ $item->zuhur ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->zuhur ? 1 : 0 }}">{{ $item->zuhur ? 'Tepat Waktu' : 'Masbuk/Telat' }}</a>
                                     </td>
-                                    <td><a id="ashar" href="#" class="btn {{ $item->ashar ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->ashar ? 1 : 0 }}">{{ $item->ashar ? 'Absen' : 'Belum Absen' }}</a>
+                                    <td><a id="ashar" href="#" class="btn {{ $item->ashar ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->ashar ? 1 : 0 }}">{{ $item->ashar ? 'Tepat Waktu' : 'Masbuk/Telat' }}</a>
                                     </td>
-                                    <td><a id="maghrib" href="#" class="btn {{ $item->maghrib ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->maghrib ? 1 : 0 }}">{{ $item->maghrib ? 'Absen' : 'Belum Absen' }}</a>
+                                    <td><a id="maghrib" href="#" class="btn {{ $item->maghrib ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->maghrib ? 1 : 0 }}">{{ $item->maghrib ? 'Tepat Waktu' : 'Masbuk/Telat' }}</a>
                                     </td>
-                                    <td><a id="isya" href="#" class="btn {{ $item->isya ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->isya ? 1 : 0 }}">{{ $item->isya ? 'Absen' : 'Belum Absen' }}</a>
+                                    <td><a id="isya" href="#" class="btn {{ $item->isya ? 'btn-success' : 'btn-danger' }} prayer-button" data-id="{{ $item->id }}" data-value="{{ $item->isya ? 1 : 0 }}">{{ $item->isya ? 'Tepat Waktu' : 'Masbuk/Telat' }}</a>
                                     </td>
                                 </tr>
                                 @endforeach */ ?>
@@ -154,10 +154,10 @@
                 //console.log();
                 if (response.success == true) {
                     if (value == 1) {
-                        button.removeClass('btn-danger').addClass('btn-success').text('Absen');
+                        button.removeClass('btn-danger').addClass('btn-success').text('Tepat Waktu');
                     } else {
                         button.removeClass('btn-success').addClass('btn-danger').text(
-                            'Belum Absen');
+                            'Masbuk/Telat');
                     }
                 } else {
                     alert('Error: ' + response.message);
