@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Attendance;
+use App\Models\Kelas;
 use App\Models\Students;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -19,12 +20,14 @@ class AttendanceExport implements FromView, WithStyles, ShouldAutoSize
     private $id;
     private $tanggal;
     private $nama;
+    private $nama_kelas;
 
-    public function __construct($id, $tanggal, $nama)
+    public function __construct($id, $tanggal, $nama, $nama_kelas)
     {
         $this->id = $id;
         $this->tanggal = $tanggal;
         $this->nama = $nama;
+        $this->nama_kelas = $nama_kelas;
     }
 
     public function view(): View
@@ -33,6 +36,7 @@ class AttendanceExport implements FromView, WithStyles, ShouldAutoSize
             'nama' => $this->nama,
             'siswa' => null,
             'kelas' => null,
+            'nama_kelas' => Kelas::where('id', $this->nama_kelas)->value('class_name'),
             'datas' => Attendance::where('student_id', $this->id)->where('date', 'LIKE', '%' . $this->tanggal . '%')->orderBy('date', 'ASC')->get()
         ]);
     }

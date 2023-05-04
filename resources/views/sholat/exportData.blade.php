@@ -67,7 +67,7 @@
                             <tbody>
                                 @foreach ($data as $item)
                                 <tr>
-                                    <td>{{ $item->month_year }}</td>
+                                    <td>{{ $item->month_year }} / {{ $item->month_year + 1 }}</td>
                                     <td>
                                         @if(Auth::user() -> level == 'admin')
                                         <form action="{{ route('sholat.exportAllData', ['tahun' => $item->month_year]) }}" method="POST" class="d-inline">

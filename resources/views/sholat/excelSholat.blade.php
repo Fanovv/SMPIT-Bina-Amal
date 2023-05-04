@@ -11,7 +11,12 @@
     <table>
         <thead>
             <tr>
+                @if($nama_kelas != null)
+                <th>{{ $nama }} ({{ $nama_kelas }})</th>
+                @endif
+                @if($nama_kelas == null)
                 <th>{{ $nama }}</th>
+                @endif
             </tr>
             <tr>
                 <th>No</th>
@@ -41,29 +46,29 @@
                 @endif
                 <td>{{ date('d-F-Y', strtotime($data->date)) }}</td>
                 @if($data->subuh == 1)
-                <td>Sholat</td>
+                <td>Tepat Waktu</td>
                 @else
-                <td>Tidak Sholat/Alasan Lain</td>
+                <td>Masbuk/Telat</td>
                 @endif
                 @if($data->zuhur == 1)
-                <td>Sholat</td>
+                <td>Tepat Waktu</td>
                 @else
-                <td>Tidak Sholat/Alasan Lain</td>
+                <td>Masbuk/Telat</td>
                 @endif
                 @if($data->ashar == 1)
-                <td>Sholat</td>
+                <td>Tepat Waktu</td>
                 @else
-                <td>Tidak Sholat/Alasan Lain</td>
+                <td>Masbuk/Telat</td>
                 @endif
                 @if($data->maghrib == 1)
-                <td>Sholat</td>
+                <td>Tepat Waktu</td>
                 @else
-                <td>Tidak Sholat/Alasan Lain</td>
+                <td>Masbuk/Telat</td>
                 @endif
                 @if($data->isya == 1)
-                <td>Sholat</td>
+                <td>Tepat Waktu</td>
                 @else
-                <td>Tidak Sholat/Alasan Lain</td>
+                <td>Masbuk/Telat</td>
                 @endif
             </tr>
             @endforeach

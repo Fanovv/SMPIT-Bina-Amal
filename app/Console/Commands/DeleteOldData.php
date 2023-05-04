@@ -29,11 +29,9 @@ class DeleteOldData extends Command
      */
     public function handle()
     {
-        // Hitung tanggal 2 tahun yang lalu
-        $dateLimit = date('Y', strtotime('-2 year'));
 
-        // Hapus data dengan tanggal kurang dari $dateLimit
-        $check = Attendance::where('date', 'LIKE', '%' . $dateLimit . '%')->delete();
+        $dateLimit = date('Y-m-d', strtotime('-2 year -1 month'));
+        $check = Attendance::where('date', '<', $dateLimit)->delete();
 
         // Tampilkan pesan hasil penghapusan data
         $this->info('Berhasil menghapus ' . $check . ' data.');

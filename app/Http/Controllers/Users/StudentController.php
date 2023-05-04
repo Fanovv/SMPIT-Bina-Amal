@@ -191,7 +191,8 @@ class StudentController extends Controller
         $dateTime = new DateTime($tanggal);
         $bulanTahun = $dateTime->format('Y-m');
         $nama = Students::where('id', $student_id)->value('nama');
+        $nama_kelas = Students::where('id', $student_id)->value('kelas');
 
-        return Excel::download(new AttendanceExport($student_id, $bulanTahun, $nama), $nama . '-' . $bulanTahun . '.xlsx');
+        return Excel::download(new AttendanceExport($student_id, $bulanTahun, $nama, $nama_kelas), $nama . '-' . $bulanTahun . '.xlsx');
     }
 }
