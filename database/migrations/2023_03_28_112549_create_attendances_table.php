@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean('ashar')->type('BOOLEAN')->default(true);
             $table->boolean('maghrib')->type('BOOLEAN')->default(true);
             $table->boolean('isya')->type('BOOLEAN')->default(true);
+            $table->string('description')->nullable();
 
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');

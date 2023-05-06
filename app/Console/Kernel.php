@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call([AttendanceController::class, 'attendanceEvent'])->dailyAt('01:00');
-        $schedule->command(DeleteOldData::class)->yearlyOn(6, 1, '01:00');
+        $schedule->command(DeleteOldData::class)->yearlyOn(7, 1, '01:00');
     }
 
     /**

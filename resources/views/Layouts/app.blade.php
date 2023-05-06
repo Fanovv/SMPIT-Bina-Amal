@@ -16,6 +16,7 @@
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!-- CSS Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     @stack('css')
 
     <!-- Template CSS -->
@@ -340,6 +341,15 @@
                                 @endif
                             </ul>
                         </li>
+                        @if(Auth::user() -> level == 'admin')
+                        <li class="{{ $title==='Keterangan Sholat'? 'active' : '' }}"><a class="nav-link" href="{{ route('desc.descSholat') }}"><i class="fas fa-pencil-ruler"></i> <span>Keterangan Sholat</span></a></li>
+                        @endif
+                        @if(Auth::user() -> level == 'tu')
+                        <li class="{{ $title==='Keterangan Sholat'? 'active' : '' }}"><a class="nav-link" href="{{ route('tu.descSholat') }}"><i class="fas fa-pencil-ruler"></i> <span>Keterangan Sholat</span></a></li>
+                        @endif
+                        @if(Auth::user() -> level == 'wali')
+                        <li class="{{ $title==='Keterangan Sholat'? 'active' : '' }}"><a class="nav-link" href="{{ route('wali.descSholat') }}"><i class="fas fa-pencil-ruler"></i> <span>Keterangan Sholat</span></a></li>
+                        @endif
                         <!-- <li class="nav-item dropdown">
                             <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i>
                                 <span>Forms</span></a>
@@ -462,6 +472,7 @@
     <script src="{{ asset('js/stisla.js') }}"></script>
 
     <!-- JS Libraies -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     @stack('scripts')
 
     <!-- Template JS File -->

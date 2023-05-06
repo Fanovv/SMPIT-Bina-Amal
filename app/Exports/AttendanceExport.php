@@ -43,9 +43,9 @@ class AttendanceExport implements FromView, WithStyles, ShouldAutoSize
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->mergeCells("A1:G1");
+        $sheet->mergeCells("A1:H1");
 
-        return [
+        $styles = [
             1 => [
                 'font' => [
                     'bold' => true,
@@ -67,5 +67,21 @@ class AttendanceExport implements FromView, WithStyles, ShouldAutoSize
                 ],
             ],
         ];
+
+        $data = Attendance::where('student_id', $this->id)->where('date', 'LIKE', '%' . $this->tanggal . '%')->orderBy('date', 'ASC')->get();
+
+        foreach ($data as $index => $row) {
+            $styles[$index + 3] = [
+                'font' => [
+                    'size' => 10,
+                ],
+                'alignment' => [
+                    'horizontal' => 'center',
+                    'vertical' => 'center',
+                ],
+            ];
+        }
+
+        return $styles;
     }
 }

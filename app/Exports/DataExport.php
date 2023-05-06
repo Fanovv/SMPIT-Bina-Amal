@@ -26,8 +26,8 @@ class DataExport implements FromView, WithStyles, ShouldAutoSize
     public function view(): View
     {
      
-        $startDate = date('Y-m-d', strtotime($this->tahun.'-06-01'));
-        $endDate = date('Y-m-d', strtotime('+1 year', strtotime($this->tahun.'-07-31')));
+        $startDate = date('Y-m-d', strtotime($this->tahun.'-07-01'));
+        $endDate = date('Y-m-d', strtotime('+1 year', strtotime($this->tahun.'-06-30')));
         
         $dataSholat = Attendance::select('attendances.*', 'students.nama', 'classes.class_name')
             ->join('students', 'attendances.student_id', '=', 'students.id')
@@ -56,9 +56,9 @@ class DataExport implements FromView, WithStyles, ShouldAutoSize
     
     public function styles(Worksheet $sheet)
     {
-        $sheet->mergeCells("A1:I1");
+        $sheet->mergeCells("A1:J1");
 
-        return [
+        $styles = [
             1 => [
                 'font' => [
                     'bold' => true,
@@ -80,5 +80,29 @@ class DataExport implements FromView, WithStyles, ShouldAutoSize
                 ],
             ],
         ];
+
+        $startDate = date('Y-m-d', strtotime($this->tahun.'-07-01'));
+        $endDate = date('Y-m-d', strtotime('+1 year', strtotime($this->tahun.'-06-30')));
+
+        $data = Attendance::select('attendances.*', 'students.nama', 'classes.class_name')
+        ->join('students', 'attendances.student_id', '=', 'students.id')
+        ->join('classes', 'attendances.class_id', '=', 'classes.id')
+        ->whereBetween('date', [$startDate, $endDate])
+        ->orderBy('class_id', 'ASC')->orderBy('date', 'ASC')
+        ->get();
+
+        foreach ($data as $index => $row) {
+            $styles[$index + 3] = [
+                'font' => [
+                    'size' => 10,
+                ],
+                'alignment' => [
+                    'horizontal' => 'center',
+                    'vertical' => 'center',
+                ],
+            ];
+        }
+
+        return $styles;
     }
 }

@@ -32,6 +32,7 @@
                 <th>Ashar</th>
                 <th>Maghrib</th>
                 <th>Isya</th>
+                <th>Keterangan</th>
             </tr>
         </thead>
         <tbody>
@@ -70,6 +71,7 @@
                 @else
                 <td>Masbuk/Telat</td>
                 @endif
+                <td>{{ $data -> description }}</td>
             </tr>
             @endforeach
         </tbody>

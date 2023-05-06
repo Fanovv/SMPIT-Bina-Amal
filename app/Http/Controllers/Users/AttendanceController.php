@@ -219,4 +219,59 @@ class AttendanceController extends Controller
     {
         return Excel::download(new DataExport($tahun), $tahun . '-' . $tahun + 1 . '.xlsx');
     }
+
+    public function descSholat()
+    {
+        if (Auth::user()->level == 'admin') {
+            return view('desc.descSholat', [
+                "title" => "Keterangan Sholat",
+                "data" => Kelas::all(),
+                "tgl" => Carbon::now()->format('Y-m-d')
+            ]);
+        } else if (Auth::user()->level == 'tu') {
+            return view('tu.descSholat', [
+                "title" => "Keterangan Sholat",
+                "data" => Kelas::all(),
+                "tgl" => Carbon::now()->format('Y-m-d')
+            ]);
+        } else if (Auth::user()->level == 'wali') {
+            return view('wali.descSholat', [
+                "title" => "Keterangan Sholat",
+                "data" => Kelas::where('wali_1', Auth::user()->id)->orWhere('wali_2', Auth::user()->id)->orderBy('class_name', 'ASC')->get(),
+                "tgl" => Carbon::now()->format('Y-m-d')
+            ]);
+        }
+    }
+
+    public function getMurid(Request $request)
+    {
+        $id_kelas = $request->kelas;
+
+        $murid = Students::where('id', $id_kelas)->get();
+
+        $output = '';
+        foreach ($murid as $m) {
+            $output .= '<option value="' . $m->id . '">' . $m->nama . '</option>';
+        }
+        return $output;
+    }
+
+    public function updateDesc(Request $request)
+    {
+        $id_kelas = $request->kelas;
+        $id_siswa = $request->murid;
+        $tgl = $request->tgl;
+
+        $check = DB::table('attendances')->where('student_id', $id_siswa)->where('class_id', $id_kelas)->where('date', $tgl)->get();
+
+        $update = DB::table('attendances')->where('student_id', $id_siswa)->where('class_id', $id_kelas)->where('date', $tgl)->update([
+            'description' => $request->ket
+        ]);
+
+        // dd($check);
+        if($check->isEmpty()){
+            return back()->with($update ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data Tidak Tersedia']);
+        }
+        return back()->with($update ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+    }
 }
