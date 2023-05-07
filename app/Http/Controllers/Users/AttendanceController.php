@@ -247,7 +247,7 @@ class AttendanceController extends Controller
     {
         $id_kelas = $request->kelas;
 
-        $murid = Students::where('id', $id_kelas)->get();
+        $murid = Students::where('kelas', $id_kelas)->get();
 
         $output = '';
         foreach ($murid as $m) {

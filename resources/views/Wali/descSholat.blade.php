@@ -2,7 +2,7 @@
 
 @section('content')
 <script>
-document.title = "Keterangan Sholat"
+    document.title = "Keterangan Sholat"
 </script>
 <div class="main-content">
     <section class="section">
@@ -100,23 +100,28 @@ document.title = "Keterangan Sholat"
 
 @push('scripts')
 <script>
-function getMurid() {
-    var kelas = document.getElementById("kelas").value;
+    function getMurid() {
+        var kelas = document.getElementById("kelas").value;
 
-    if (kelas != "") {
-        $.ajax({
-            type: "GET",
-            url: '{{ route("wali.getMurid") }}',
-            data: {
-                kelas: kelas
-            },
-            success: function(response) {
-                var muridSelect = document.getElementById("murid");
-                muridSelect.innerHTML = "<option value=''>- Pilih Siswa -</option>";
-                muridSelect.innerHTML += response;
-            }
-        });
+        if (kelas != "") {
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                url: '{{ route("wali.getMurid") }}',
+                data: {
+                    kelas: kelas
+                },
+                success: function(response) {
+                    var muridSelect = document.getElementById("murid");
+                    muridSelect.innerHTML = "<option value=''>- Pilih Siswa -</option>";
+                    muridSelect.innerHTML += response;
+                }
+            });
+        }
     }
-}
 </script>
 @endpush

@@ -64,7 +64,7 @@ Route::group(['middleware' => 'revalidate'], function () {
 
         //Keterangan
         Route::get('/keterangan', [App\Http\Controllers\Users\AttendanceController::class, 'descSholat'])->name('desc.descSholat');
-        Route::get('/get-murid', [App\Http\Controllers\Users\AttendanceController::class, 'getMurid'])->name('desc.getMurid');
+        Route::post('/get-murid', [App\Http\Controllers\Users\AttendanceController::class, 'getMurid'])->name('desc.getMurid');
         Route::put('/keterangan/update', [App\Http\Controllers\Users\AttendanceController::class, 'updateDesc'])->name('desc.updateDesc');
 
         //export file
@@ -114,7 +114,7 @@ Route::group(['middleware' => 'revalidate'], function () {
 
         //Keterangan
         Route::get('/keterangan', [App\Http\Controllers\Users\AttendanceController::class, 'descSholat'])->name('tu.descSholat');
-        Route::get('/get-murid', [App\Http\Controllers\Users\AttendanceController::class, 'getMurid'])->name('tu.getMurid');
+        Route::post('/get-murid', [App\Http\Controllers\Users\AttendanceController::class, 'getMurid'])->name('tu.getMurid');
         Route::put('/keterangan/update', [App\Http\Controllers\Users\AttendanceController::class, 'updateDesc'])->name('tu.updateDesc');
     });
 
@@ -131,7 +131,7 @@ Route::group(['middleware' => 'revalidate'], function () {
 
         //Keterangan
         Route::get('/keterangan', [App\Http\Controllers\Users\AttendanceController::class, 'descSholat'])->name('wali.descSholat');
-        Route::get('/get-murid', [App\Http\Controllers\Users\AttendanceController::class, 'getMurid'])->name('wali.getMurid');
+        Route::post('/get-murid', [App\Http\Controllers\Users\AttendanceController::class, 'getMurid'])->name('wali.getMurid');
         Route::put('/keterangan/update', [App\Http\Controllers\Users\AttendanceController::class, 'updateDesc'])->name('wali.updateDesc');
     });
 });
