@@ -2,7 +2,7 @@
 
 @section('content')
 <script>
-document.title = "Dashboard"
+    document.title = "Dashboard"
 </script>
 <div class="main-content">
     <section class="section">
@@ -19,69 +19,81 @@ document.title = "Dashboard"
                     Welcome Back, {{ $nama->name }}
                 </div>
             </div>
+            <?php
+            $now = new DateTime();
+            $year = $now->format('Y');
+            $startOfMay = new DateTime($year . '-05-01');
+            $endOfJune = new DateTime($year . '-06-30');
+            $showMessage = $now >= $startOfMay && $now <= $endOfJune;
+            if ($showMessage) {
+                echo '<div class="alert alert-danger alert-dismissible show fade">
+                <div class="alert-body" style="color:black; font-size: 18px;"><b><i>
+                Silahkan Melakukan Export Data Sebelum Mengganti Tahun Ajaran Baru
+                </i>
+                </b>
+                </div>
+            </div>';
+            }
+            ?>
             <div class="alert alert-primary alert-dismissible show fade">
                 <div class="alert-body">
-                    Contoh file import excel kelas ---> <a
-                        href="{{ asset('file/contoh-excel-kelas.xlsx') }}"><u style="color:lime;">Download</u></a> <---
-                </div>
-                <div class="alert-body">
-                    Contoh file import excel murid ---> <a
-                        href="{{ asset('file/contoh-excel-siswa.xlsx') }}"><u style="color:lime;">Download</u></a> <---
-                </div>
-            </div>
-            @if(session()->has('success'))
-            <div class="alert alert-success alert-dismissible show fade">
-                <div class="alert-body">
-                    <button class="close" data-dismiss="alert">
-                        <span>&times;</span>
-                    </button>
-                    {{ session('success') }}
-                </div>
-            </div>
-            @endif
-            @if(session()->has('fail'))
-            <div class="alert alert-danger alert-dismissible show fade">
-                <div class="alert-body">
-                    <button class="close" data-dismiss="alert">
-                        <span>&times;</span>
-                    </button>
-                    {{ session('fail') }}
-                </div>
-            </div>
-            @endif
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="card card-statistic-1">
-                        <div class="card-icon bg-danger">
-                            <i class="fas fa-columns"></i>
+                    Contoh file import excel kelas ---> <a href="{{ asset('file/contoh-excel-kelas.xlsx') }}"><u style="color:lime;">Download</u></a> <--- </div>
+                        <div class="alert-body">
+                            Contoh file import excel murid ---> <a href="{{ asset('file/contoh-excel-siswa.xlsx') }}"><u style="color:lime;">Download</u></a> <--- </div>
                         </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Total Kelas</h4>
-                            </div>
-                            <div class="card-body">
-                                {{ $kelas }}
+                        @if(session()->has('success'))
+                        <div class="alert alert-success alert-dismissible show fade">
+                            <div class="alert-body">
+                                <button class="close" data-dismiss="alert">
+                                    <span>&times;</span>
+                                </button>
+                                {{ session('success') }}
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="card card-statistic-1">
-                        <div class="card-icon bg-warning">
-                            <i class="far fa-user"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Total Murid</h4>
-                            </div>
-                            <div class="card-body">
-                                {{ $murid }}
+                        @endif
+                        @if(session()->has('fail'))
+                        <div class="alert alert-danger alert-dismissible show fade">
+                            <div class="alert-body">
+                                <button class="close" data-dismiss="alert">
+                                    <span>&times;</span>
+                                </button>
+                                {{ session('fail') }}
                             </div>
                         </div>
-                    </div>
+                        @endif
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-danger">
+                                        <i class="fas fa-columns"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                        <div class="card-header">
+                                            <h4>Total Kelas</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            {{ $kelas }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-warning">
+                                        <i class="far fa-user"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                        <div class="card-header">
+                                            <h4>Total Murid</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            {{ $murid }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
-            </div>
-        </div>
     </section>
 </div>
 

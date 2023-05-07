@@ -19,6 +19,22 @@ document.title = "Dashboard"
                     Welcome Back, {{ $nama->name }}
                 </div>
             </div>
+            <?php
+            $now = new DateTime();
+            $year = $now->format('Y');
+            $startOfMay = new DateTime($year . '-05-01');
+            $endOfJune = new DateTime($year . '-06-30');
+            $showMessage = $now >= $startOfMay && $now <= $endOfJune;
+            if ($showMessage) {
+                echo '<div class="alert alert-danger alert-dismissible show fade">
+                <div class="alert-body" style="color:black; font-size: 18px;"><b><i>
+                Silahkan Melakukan Export Data Sebelum Mengganti Tahun Ajaran Baru
+                </i>
+                </b>
+                </div>
+            </div>';
+            }
+            ?>
             <div class="alert alert-primary alert-dismissible show fade">
                 <div class="alert-body">
                     Contoh file import excel kelas ---> <a
