@@ -235,7 +235,7 @@ class AttendanceController extends Controller
                 "tgl" => Carbon::now()->format('Y-m-d')
             ]);
         } else if (Auth::user()->level == 'wali') {
-            return view('wali.descSholat', [
+            return view('Wali.descSholat', [
                 "title" => "Keterangan Sholat",
                 "data" => Kelas::where('wali_1', Auth::user()->id)->orWhere('wali_2', Auth::user()->id)->orderBy('class_name', 'ASC')->get(),
                 "tgl" => Carbon::now()->format('Y-m-d')
