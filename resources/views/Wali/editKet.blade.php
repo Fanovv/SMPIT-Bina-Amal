@@ -99,9 +99,15 @@
                             </div>
                         </div>
                     </div>
+                    @if($data != null)
                     <div class="card-footer text-right">
-                        <button class="btn btn-primary">Submit</button>
+                        <button class="btn btn-primary" id="submitButton" name="submitButton">Submit</button>
                     </div>
+                    @else
+                    <div class="card-footer text-right">
+                        <button class="btn btn-primary" id="submitButton" name="submitButton" disabled>Submit</button>
+                    </div>
+                    @endif
                 </form>
             </div>
         </div>
@@ -133,9 +139,11 @@
                     if (response.keterangan) {
                         $('#ket').val(response.keterangan.description);
                         $('#ket').removeAttr('readonly');
+                        $('#submitButton').attr('disabled', false);
                     } else {
                         $('#ket').val('Data Absen Sholat Tidak Ada');
                         $('#ket').attr('readonly', true);
+                        $('#submitButton').attr('disabled', true);
                     }
                 },
                 error: function(response) {
