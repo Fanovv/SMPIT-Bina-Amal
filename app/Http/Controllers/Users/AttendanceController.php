@@ -256,6 +256,7 @@ class AttendanceController extends Controller
         return $output;
     }
 
+    //nambah keterangan sholat
     public function updateDesc(Request $request)
     {
         $id_kelas = $request->kelas;
@@ -269,9 +270,91 @@ class AttendanceController extends Controller
         ]);
 
         // dd($check);
-        if($check->isEmpty()){
+        if ($check->isEmpty()) {
             return back()->with($update ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data Tidak Tersedia']);
         }
         return back()->with($update ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+    }
+
+    public function getDataSiswa($id_kelas)
+    {
+        $murid = Students::where('kelas', $id_kelas)->orderBy('nama', 'ASC')->get();
+        $kelas = Kelas::where('id', $id_kelas)->value('class_name');
+
+        return view('sholat.dataSiswa', [
+            "title" => "Absen Sholat",
+            "data" => $murid,
+            "kelas" => $kelas
+        ]);
+    }
+
+    public function editKet($id_kelas, $id_murid)
+    {
+        $tgl = Carbon::now()->format('Y-m-d');
+
+        $keterangan = Attendance::where('class_id', $id_kelas)->where('student_id', $id_murid)->where('date', $tgl)->first();
+        $ket = Attendance::where('class_id', $id_kelas)->where('student_id', $id_murid)->where('date', $tgl)->value('description');
+        $kelas = Kelas::where('id', $id_kelas)->value('class_name');
+        $nama = Students::where('id', $id_murid)->value('nama');
+
+        if (Auth::user()->level == 'admin') {
+            return view('sholat.editKet', [
+                "title" => "Absen Sholat",
+                "data" => $keterangan ? $keterangan : null,
+                "ket" => $ket ? $ket : null,
+                "kelas" => $kelas,
+                "nama" => $nama,
+                "id_murid" => $id_murid,
+                "id_kelas" => $id_kelas,
+                "tgl" => $tgl
+            ]);
+        } else if (Auth::user()->level == 'tu') {
+            return view('tu.editKet', [
+                "title" => "Absen Sholat",
+                "data" => $keterangan ? $keterangan : null,
+                "ket" => $ket ? $ket : null,
+                "kelas" => $kelas,
+                "nama" => $nama,
+                "id_murid" => $id_murid,
+                "id_kelas" => $id_kelas,
+                "tgl" => $tgl
+            ]);
+        } else if (Auth::user()->level == 'wali') {
+            return view('Wali.editKet', [
+                "title" => "Absen Sholat",
+                "data" => $keterangan ? $keterangan : null,
+                "ket" => $ket ? $ket : null,
+                "kelas" => $kelas,
+                "nama" => $nama,
+                "id_murid" => $id_murid,
+                "id_kelas" => $id_kelas,
+                "tgl" => $tgl
+            ]);
+        }
+    }
+
+    public function getKeterangan(Request $request)
+    {
+        $tgl = $request->date;
+        $id_kelas = $request->id_kelas;
+        $id_murid = $request->id_murid;
+
+        $keterangan = Attendance::where('class_id', $id_kelas)->where('student_id', $id_murid)->where('date', $tgl)->first();
+
+        return response()->json([
+            'keterangan' => $keterangan
+        ]);
+    }
+
+    //update keterangan sholat
+    public function updateKeterangan(Request $request, $id_kelas, $id_murid)
+    {
+        $tgl = $request->tgl;
+        
+        $updateKet = DB::table('attendances')->where('student_id', $id_murid)->where('class_id', $id_kelas)->where('date', $tgl)->update([
+            'description' => $request->ket
+        ]);
+
+        return back()->with($updateKet ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
     }
 }

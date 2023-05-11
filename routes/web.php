@@ -63,9 +63,13 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::post('/absen/update', [App\Http\Controllers\Users\AttendanceController::class, 'updateSholat'])->name('sholat.updateSholat');
 
         //Keterangan
+        Route::get('/keterangan/{id_kelas}', [App\Http\Controllers\Users\AttendanceController::class, 'getDataSiswa'])->name('desc.getDataSiswa');
+        Route::get('/keterangan/{id_kelas}/edit/{id_murid}', [App\Http\Controllers\Users\AttendanceController::class, 'editKet'])->name('desc.editKet');
         Route::get('/keterangan', [App\Http\Controllers\Users\AttendanceController::class, 'descSholat'])->name('desc.descSholat');
         Route::post('/get-murid', [App\Http\Controllers\Users\AttendanceController::class, 'getMurid'])->name('desc.getMurid');
+        Route::post('/get-keterangan', [App\Http\Controllers\Users\AttendanceController::class, 'getKeterangan'])->name('desc.getKeterangan');
         Route::put('/keterangan/update', [App\Http\Controllers\Users\AttendanceController::class, 'updateDesc'])->name('desc.updateDesc');
+        Route::put('/keterangan/edit/{id_kelas}/update/{id_murid}', [App\Http\Controllers\Users\AttendanceController::class, 'updateKeterangan'])->name('desc.updateKeterangan');
 
         //export file
         Route::get('/export-student/{id}', [App\Http\Controllers\Users\StudentController::class, 'exportStudent'])->name('sholat.exportStudent');
@@ -116,6 +120,10 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/keterangan', [App\Http\Controllers\Users\AttendanceController::class, 'descSholat'])->name('tu.descSholat');
         Route::post('/get-murid', [App\Http\Controllers\Users\AttendanceController::class, 'getMurid'])->name('tu.getMurid');
         Route::put('/keterangan/update', [App\Http\Controllers\Users\AttendanceController::class, 'updateDesc'])->name('tu.updateDesc');
+        Route::get('/keterangan/{id_kelas}', [App\Http\Controllers\Users\AttendanceController::class, 'getDataSiswa'])->name('tu.desc.getDataSiswa');
+        Route::get('/keterangan/{id_kelas}/edit/{id_murid}', [App\Http\Controllers\Users\AttendanceController::class, 'editKet'])->name('tu.desc.editKet');
+        Route::post('/get-keterangan', [App\Http\Controllers\Users\AttendanceController::class, 'getKeterangan'])->name('tu.desc.getKeterangan');
+        Route::put('/keterangan/edit/{id_kelas}/update/{id_murid}', [App\Http\Controllers\Users\AttendanceController::class, 'updateKeterangan'])->name('tu.desc.updateKeterangan');
     });
 
     Route::group(['middleware' => ['auth', 'user-access:wali'], 'prefix' => 'wali'], function () {
@@ -133,5 +141,9 @@ Route::group(['middleware' => 'revalidate'], function () {
         Route::get('/keterangan', [App\Http\Controllers\Users\AttendanceController::class, 'descSholat'])->name('wali.descSholat');
         Route::post('/get-murid', [App\Http\Controllers\Users\AttendanceController::class, 'getMurid'])->name('wali.getMurid');
         Route::put('/keterangan/update', [App\Http\Controllers\Users\AttendanceController::class, 'updateDesc'])->name('wali.updateDesc');
+        Route::get('/keterangan/{id_kelas}', [App\Http\Controllers\Users\AttendanceController::class, 'getDataSiswa'])->name('wali.desc.getDataSiswa');
+        Route::get('/keterangan/{id_kelas}/edit/{id_murid}', [App\Http\Controllers\Users\AttendanceController::class, 'editKet'])->name('wali.desc.editKet');
+        Route::post('/get-keterangan', [App\Http\Controllers\Users\AttendanceController::class, 'getKeterangan'])->name('wali.desc.getKeterangan');
+        Route::put('/keterangan/edit/{id_kelas}/update/{id_murid}', [App\Http\Controllers\Users\AttendanceController::class, 'updateKeterangan'])->name('wali.desc.updateKeterangan');
     });
 });

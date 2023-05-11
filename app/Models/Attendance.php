@@ -15,6 +15,6 @@ class Attendance extends Model
     protected $primaryKey = "id";
     public $timestamps = false;
     protected $fillable = [
-        'student_id', 'class_id', 'date', 'subuh', 'zuhur', 'ashar', 'maghrib', 'isya'
+        'student_id', 'class_id', 'date', 'subuh', 'zuhur', 'ashar', 'maghrib', 'isya','description'
     ];
 }

@@ -64,13 +64,25 @@
                                 <a href="{{ route('sholat.absenSholat',['id_kelas' => $data->id]) }}" class="btn btn-primary btn-lg btn-round">
                                     LIHAT KELAS
                                 </a>
+                                <br></br>
+                                <a href="{{ route('desc.getDataSiswa',['id_kelas' => $data->id]) }}" class="btn btn-warning btn-lg btn-round">
+                                    EDIT KETERANGAN
+                                </a>
                                 @elseif(Auth::user() -> level == 'tu')
                                 <a href="{{ route('tu.sholat.absenSholat',['id_kelas' => $data->id]) }}" class="btn btn-primary btn-lg btn-round">
                                     LIHAT KELAS
                                 </a>
+                                <br></br>
+                                <a href="{{ route('tu.desc.getDataSiswa',['id_kelas' => $data->id]) }}" class="btn btn-warning btn-lg btn-round">
+                                    EDIT KETERANGAN
+                                </a>
                                 @elseif(Auth::user() -> level == 'wali')
                                 <a href="{{ route('wali.sholat.absenSholat',['id_kelas' => $data->id]) }}" class="btn btn-primary btn-lg btn-round">
                                     LIHAT KELAS
+                                </a>
+                                <br></br>
+                                <a href="{{ route('wali.desc.getDataSiswa',['id_kelas' => $data->id]) }}" class="btn btn-warning btn-lg btn-round">
+                                    EDIT KETERANGAN
                                 </a>
                                 @endif
                             </div>
