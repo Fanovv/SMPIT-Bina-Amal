@@ -16,14 +16,21 @@
             @if(Auth::user() -> level == 'admin')
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item active"><a href="{{ route('student.showKelas') }}">Management Murid</a>
+                <div class="breadcrumb-item active"><a href="{{ route('sholat.showKelas') }}">Absen Sholat</a>
                 </div>
                 <div class="breadcrumb-item">Data Murid {{$kelas}}</div>
             </div>
             @elseif(Auth::user() -> level == 'tu')
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('tu.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item active"><a href="{{ route('tu.student.showKelas') }}">Management Murid</a>
+                <div class="breadcrumb-item active"><a href="{{ route('tu.sholat.showKelas') }}">Absen Sholat</a>
+                </div>
+                <div class="breadcrumb-item">Data Murid {{$kelas}}</div>
+            </div>
+            @elseif(Auth::user() -> level == 'wali')
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="{{ route('wali.dashboard') }}">Dashboard</a></div>
+                <div class="breadcrumb-item active"><a href="{{ route('wali.sholat.showKelas') }}">Absen Sholat</a>
                 </div>
                 <div class="breadcrumb-item">Data Murid {{$kelas}}</div>
             </div>
