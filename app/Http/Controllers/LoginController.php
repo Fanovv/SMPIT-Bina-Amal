@@ -38,11 +38,11 @@ class LoginController extends Controller
             } elseif ($user->level == 'tu') {
                 return redirect()->intended(route('tu.dashboard'));
             } else {
-                return redirect()->back()->with('fail', 'login failed');
+                return redirect()->back()->with('fail', 'Email atau Password salah');
             }
         }
 
-        return redirect()->back()->with('fail', 'Email dan Password salah');
+        return redirect()->back()->with('fail', 'Email atau Password salah');
     }
 
     public function logout(Request $request)

@@ -271,9 +271,9 @@ class AttendanceController extends Controller
 
         // dd($check);
         if ($check->isEmpty()) {
-            return back()->with($update ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data Tidak Tersedia']);
+            return back()->with($update ? ['success' => 'Data Berhasil Ditambahkan'] : ['fail' => 'Data Tidak Tersedia']);
         }
-        return back()->with($update ? ['success' => 'Data berhasil diubah'] : ['fail' => 'Data gagal diubah']);
+        return back()->with($update ? ['success' => 'Data Berhasil Ditambahkan'] : ['fail' => 'Data Gagal Ditambahkan']);
     }
 
     public function getDataSiswa($id_kelas)

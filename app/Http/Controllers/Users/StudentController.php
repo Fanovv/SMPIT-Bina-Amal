@@ -164,9 +164,9 @@ class StudentController extends Controller
             'nama' => $request->nama,
         ]);
         if (Auth::user()->level == 'admin') {
-            return redirect()->route('student.manageStudent', ['id_kelas' => $id_kelas])->with($check ? ['success' => 'Data berhasil diganti'] : ['fail' => 'Data gagal diganti']);
+            return redirect()->route('student.manageStudent', ['id_kelas' => $id_kelas])->with($check ? ['success' => 'Data Berhasil Diubah'] : ['fail' => 'Data Gagal Diubah']);
         } else if (Auth::user()->level == 'tu') {
-            return redirect()->route('tu.student.manageStudent', ['id_kelas' => $id_kelas])->with($check ? ['success' => 'Data berhasil diganti'] : ['fail' => 'Data gagal diganti']);
+            return redirect()->route('tu.student.manageStudent', ['id_kelas' => $id_kelas])->with($check ? ['success' => 'Data Berhasil Diubah'] : ['fail' => 'Data Gagal Diubah']);
         }
     }
 
